@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Staff.API.Infrastructure.Extensions;
 using Staff.Common.Configs;
 using Staff.DAL;
+using Staff.DAL.Triggers;
 using Staff.Domain.Users;
 using System.Text;
 
@@ -14,7 +15,10 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddDbContext<StaffDbContext>(options =>
 {
-    options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("StaffDbConn"));
+    options
+        .UseLazyLoadingProxies()
+        .UseSqlServer(builder.Configuration.GetConnectionString("StaffDbConn"))
+        .UseTriggers(options => options.AddTrigger<DeleteNoteTrigger>());
 });
 
 builder.Services
