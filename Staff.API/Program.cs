@@ -94,4 +94,6 @@ app.MapControllers();
 
 app.UseDbTransaction();
 
+app.UseGlobalErrorHandling();
+
 app.Run();

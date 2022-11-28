@@ -9,5 +9,11 @@ namespace Staff.API.Infrastructure.Extensions
             app.UseMiddleware<DbTransactionMiddleware>();
             return app;
         }
+
+        public static IApplicationBuilder UseGlobalErrorHandling(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            return app;
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            services.AddScoped(typeof(IGenericService<,,,,>), typeof(GenericService<,,,,>));
+
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             services.AddScoped<ITokenManager, TokenManager>();
@@ -31,6 +33,8 @@ namespace Staff.API.Infrastructure.Extensions
             services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
 
             return services;
         }

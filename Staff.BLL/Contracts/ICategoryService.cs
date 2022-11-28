@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Staff.BLL.Contracts
 {
-    public interface ICategoryService : IGenericService<Category, CategoryDto, CategoryDto, CreateCategoryDto, CreateCategoryDto>
+    public interface ICategoryService : IGenericService<Category, CategoryDto, CategoryDto, CreateCategoryDto, UpdateCategoryDto>
     {
     }
 }

@@ -13,8 +13,11 @@ namespace Staff.DAL.Repositories
             _context = context;
         }
 
-        public async Task<T> Add(T entity)
+        public async Task<T> Add(T entity, string companyId)
         {
+            Company company = await _context.Set<Company>().FirstOrDefaultAsync(c => c.Id.ToString() == companyId);
+            entity.Company = company;
+
             await _context.AddAsync(entity);
 
             await _context.SaveChangesAsync();

@@ -10,7 +10,7 @@ namespace Staff.DAL.Contracts
 
         Task<IList<T>> GetEvery(string companyId);
 
-        Task<T> Add(T entity);
+        Task<T> Add(T entity, string companyId);
 
         Task Update(T entity);
 

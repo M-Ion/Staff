@@ -11,7 +11,12 @@ using System.Threading.Tasks;
 
 namespace Staff.BLL.Services
 {
-    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : IGenericService<TEntity, T, TGet, TCreate, TUpdate> where TEntity : BaseEntity
+    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : IGenericService<TEntity, T, TGet, TCreate, TUpdate> 
+        where TEntity : BaseEntity
+        where T : class
+        where TGet : class
+        where TCreate : class
+        where TUpdate : class
     {
         readonly IMapper _mapper;
 
@@ -28,7 +33,7 @@ namespace Staff.BLL.Services
         public virtual async Task<BaseDto> Add(TCreate createDto)
         {
             var entity = _mapper.Map<TEntity>(createDto);
-            Guid id = (await _repo.Add(entity)).Id;
+            Guid id = (await _repo.Add(entity, _user.CompanyId)).Id;
 
             return new BaseDto() { Id = id };
         }
