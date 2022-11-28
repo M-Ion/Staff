@@ -10,7 +10,7 @@ using Staff.Domain.Users;
 
 namespace Staff.BLL.Services
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IAuthManager _authManager;
         private readonly UserManager<AppUser> _userManager;
@@ -55,7 +55,7 @@ namespace Staff.BLL.Services
         public async Task<IEnumerable<IdentityError>> Register(RegisterStaffDto registerDto)
         {
             Company company = await _companyRepository.Get(registerDto.CompanyId);
-            WorkerUser user = _mapper.Map<WorkerUser>(registerDto); 
+            WorkerUser user = _mapper.Map<WorkerUser>(registerDto);
 
             user.UserName = user.Email;
             user.Company = company;
@@ -76,6 +76,12 @@ namespace Staff.BLL.Services
             authResponse.User = CheckUserDto(user);
 
             return authResponse;
+        }
+
+        public Task<TokenDto> AccessToken()
+        {
+            string jwt = _currentCookies.Jwt;
+            return Task.FromResult<TokenDto>(new TokenDto() { Token = jwt });
         }
 
         public async Task<AuthResponseDto> CheckUserSession()

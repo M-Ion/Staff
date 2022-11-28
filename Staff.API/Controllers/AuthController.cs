@@ -75,6 +75,13 @@ namespace Staff.API.Controllers
             return Ok(authResponse).SetCookie(Response, jwtCookieDto).SetCookie(Response, refreshTokenCookieDto);
         }
 
+        [HttpGet("Token")]
+        public async Task<ActionResult<TokenDto>> AccessToken()
+        {
+            TokenDto result = await _authService.AccessToken();
+            return Ok(result);
+        }
+
         [HttpPost("Refresh")]
         public async Task<ActionResult<AuthResponseDto>> RefreshSession()
         {

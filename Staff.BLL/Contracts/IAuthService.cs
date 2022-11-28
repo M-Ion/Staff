@@ -12,6 +12,8 @@ namespace Staff.BLL.Contracts
 
         Task<AuthResponseDto> Login(LoginDto loginUserDto);
 
+        Task<TokenDto> AccessToken();
+
         Task<AuthResponseDto> CheckUserSession();
 
         Task<AuthResponseDto> Refresh();
