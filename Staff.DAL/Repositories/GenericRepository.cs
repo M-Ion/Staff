@@ -27,8 +27,10 @@ namespace Staff.DAL.Repositories
 
         public async Task<bool> Exists(Guid id, string companyId)
         {
-            T entity = await Get(id, companyId);
-            bool exists = entity != null;
+            bool exists = await _context.Set<T>().AnyAsync(
+                e => e.Id == id && 
+                e.Company.Id.ToString() == companyId
+                );
 
             return exists;
         }

@@ -18,10 +18,10 @@ namespace Staff.BLL.Services
         where TCreate : class
         where TUpdate : class
     {
-        readonly IMapper _mapper;
+        protected readonly IMapper _mapper;
 
         readonly IGenericRepository<TEntity> _repo;
-        readonly IHttpContextCurrentUser _user;
+        protected readonly IHttpContextCurrentUser _user;
 
         public GenericService(IMapper mapper, IGenericRepository<TEntity> repo, IHttpContextCurrentUser user)
         {

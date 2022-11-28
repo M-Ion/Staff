@@ -28,6 +28,10 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddScoped<IDishRepository, DishRepository>();
+
             services.AddScoped<ITokenManager, TokenManager>();
 
             services.AddScoped<IAuthManager, AuthManager>();
@@ -35,6 +39,8 @@ namespace Staff.API.Infrastructure.Extensions
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddScoped<IDishService, DishService>();
 
             return services;
         }

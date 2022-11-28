@@ -16,3 +16,4 @@ namespace Staff.Domain.Dishes
         public bool IsInStop { get; set; } = false;
     }
 }
+
