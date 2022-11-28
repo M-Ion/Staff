@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Staff.Domain\Staff.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\Dish\" />
-  </ItemGroup>
-
 </Project>

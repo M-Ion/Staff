@@ -13,11 +13,13 @@ namespace Staff.DAL.Repositories
             _context = context;
         }
 
-        public async Task Add(T entity)
+        public async Task<T> Add(T entity)
         {
             await _context.AddAsync(entity);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
         public async Task<bool> Exists(Guid id, string companyId)
