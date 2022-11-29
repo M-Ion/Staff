@@ -25,7 +25,9 @@ namespace Staff.Common.Configs
 
             CreateMap<Company, GetCompanyDto>().ReverseMap();
 
+            CreateMap<Note, CreateNoteDto>().ReverseMap();
             CreateMap<Note, GetNoteDto>().ReverseMap();
+            CreateMap<Note, UpdateNoteDto>().ReverseMap();
 
             CreateMap<Order, GetOrderDto>().ReverseMap();
 

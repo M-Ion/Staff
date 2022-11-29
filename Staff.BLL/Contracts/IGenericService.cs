@@ -19,5 +19,7 @@ namespace Staff.BLL.Contracts
         Task Update(string id, TUpdate updateDto);
 
         Task Delete(string id);
+
+        Task<bool> Exists(string id);
     }
 }

@@ -32,6 +32,8 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<IDishRepository, DishRepository>();
 
+            services.AddScoped<INoteRepository, NoteRepository>();
+
             services.AddScoped<ITokenManager, TokenManager>();
 
             services.AddScoped<IAuthManager, AuthManager>();
@@ -41,6 +43,8 @@ namespace Staff.API.Infrastructure.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IDishService, DishService>();
+
+            services.AddScoped<INoteService, NoteService>();
 
             return services;
         }

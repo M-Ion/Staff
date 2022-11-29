@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Staff.BLL.Services
 {
-    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : IGenericService<TEntity, T, TGet, TCreate, TUpdate> 
+    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : IGenericService<TEntity, T, TGet, TCreate, TUpdate>
         where TEntity : BaseEntity
         where T : class
         where TGet : class
@@ -42,7 +42,7 @@ namespace Staff.BLL.Services
         {
             Guid identity = new(id);
 
-            if (await _repo.Exists(identity, _user.CompanyId))
+            if (await Exists(id))
             {
                 await _repo.Remove(identity, _user.CompanyId);
             }
@@ -56,7 +56,7 @@ namespace Staff.BLL.Services
         {
             Guid identity = new(id);
 
-            if (await _repo.Exists(identity, _user.CompanyId))
+            if (await Exists(id))
             {
                 var entity = _repo.Get(identity, _user.CompanyId);
                 return _mapper.Map<T>(entity);
@@ -77,7 +77,7 @@ namespace Staff.BLL.Services
         {
             Guid identity = new(id);
 
-            if (await _repo.Exists(identity, _user.CompanyId))
+            if (await Exists(id))
             {
                 TEntity entity = await _repo.Get(identity, _user.CompanyId);
                 _mapper.Map(updateDto, entity);
@@ -88,6 +88,12 @@ namespace Staff.BLL.Services
             {
                 throw new Exception();
             }
+        }
+
+        public virtual async Task<bool> Exists(string id)
+        {
+            Guid guid = new(id);
+            return await _repo.Exists(guid, _user.CompanyId);
         }
     }
 }
