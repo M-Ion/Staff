@@ -5,7 +5,7 @@ using Staff.Common.Dtos.Category;
 using Staff.Common.Dtos.Company;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Dtos.Note;
-using Staff.Common.Dtos.Orders;
+using Staff.Common.Dtos.Order;
 using Staff.Domain;
 using Staff.Domain.Dishes;
 using Staff.Domain.Users;
@@ -30,6 +30,13 @@ namespace Staff.Common.Configs
             CreateMap<Note, UpdateNoteDto>().ReverseMap();
 
             CreateMap<Order, GetOrderDto>().ReverseMap();
+            CreateMap<Order, CreateOrderDto>()
+                .ReverseMap()
+                .ForMember(o => o.Note, options => options.Ignore())
+                .ForMember(o => o.Dish, options => options.Ignore());
+            CreateMap<Order, UpdateOrderDto>()
+                .ReverseMap()
+                .ForAllMembers(opt => opt.Condition(IgnoreNullAndDefault)); ;
 
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();

@@ -1,12 +1,11 @@
-﻿using Staff.Domain.Dishes;
+﻿using Staff.Common.Dtos.Dish;
+using Staff.Domain.Dishes;
 
-namespace Staff.Common.Dtos.Orders
+namespace Staff.Common.Dtos.Order
 {
     public class GetOrderDto : BaseDto
     {
-        public virtual Staff.Domain.Dishes.Dish Dish { get; set; }
-
-        public sbyte Quantity { get; set; }
+        public virtual DishDto Dish { get; set; }
 
         public bool IsPrepared { get; set; }
     }

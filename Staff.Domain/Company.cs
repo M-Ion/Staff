@@ -9,6 +9,8 @@ namespace Staff.Domain
         [Key]
         public Guid Id { get; set; }
 
+        public string Safe { get; set; }
+
         private IList<AppUser> _users;
 
         [Required]

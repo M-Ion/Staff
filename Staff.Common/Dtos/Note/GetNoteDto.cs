@@ -1,4 +1,4 @@
-﻿using Staff.Common.Dtos.Orders;
+﻿using Staff.Common.Dtos.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;

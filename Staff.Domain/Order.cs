@@ -9,8 +9,6 @@ namespace Staff.Domain
 
         public virtual Dish Dish { get; set; }
 
-        public sbyte Quantity { get; set; } = 1;
-
         public bool IsPrepared { get; set; } = false;
     }
 }

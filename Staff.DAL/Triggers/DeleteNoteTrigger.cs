@@ -17,7 +17,7 @@ namespace Staff.DAL.Triggers
             if (context.ChangeType == ChangeType.Deleted)
             { 
                 IList<Order> orders = context.Entity.Orders;
-                _context.RemoveRange(orders);
+                if (orders != null) _context.RemoveRange(orders);
             }
 
             await Task.CompletedTask;

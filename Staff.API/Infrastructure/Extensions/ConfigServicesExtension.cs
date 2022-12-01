@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Staff.API.Infrastructure.Filters;
 using Staff.BLL.Contracts;
 using Staff.BLL.Services;
 using Staff.DAL.Contracts;
@@ -22,6 +23,8 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<IHttpContextCookies, HttpContextCookies>();
 
+            services.AddScoped<SafeFilter>();
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddScoped(typeof(IGenericService<,,,,>), typeof(GenericService<,,,,>));
@@ -30,9 +33,11 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            services.AddScoped<INoteRepository, NoteRepository>();
+
             services.AddScoped<IDishRepository, DishRepository>();
 
-            services.AddScoped<INoteRepository, NoteRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddScoped<ITokenManager, TokenManager>();
 
@@ -42,9 +47,11 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<ICategoryService, CategoryService>();
 
+            services.AddScoped<INoteService, NoteService>();
+
             services.AddScoped<IDishService, DishService>();
 
-            services.AddScoped<INoteService, NoteService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }
