@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Staff.API.Infrastructure.Attributes;
 using Staff.BLL.Contracts;
 using Staff.Common.Constants;
 using Staff.Common.Dtos;
@@ -21,6 +22,7 @@ namespace Staff.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager")]
+        [AllowedFile(new string[] { ".jpg", ".webp", ".jpeg", ".png" })]
         public async Task<ActionResult> Post([FromForm] IFormFile form)
         {
             BlobDto blobDto = new() { Container = BlobConstants.DishContainer };
