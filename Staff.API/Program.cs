@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,24 @@ builder.Services
     .AddTokenProvider<DataProtectorTokenProvider<AppUser>>("StaffAPI")
     .AddEntityFrameworkStores<StaffDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        b => b
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .SetIsOriginAllowed(origin =>
+        {
+            if (origin.ToLower().StartsWith("http://localhost"))
+            {
+                return true;
+            }
+            return false;
+        })
+    );
+});
 
 TokenValidationParameters tokenValidationParameters = new()
 {
@@ -60,8 +79,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
-// Add services to the container.
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration.GetConnectionString("BlobContainerConn")));
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -86,9 +104,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowLocalhost");
+
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 

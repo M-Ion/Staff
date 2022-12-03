@@ -75,6 +75,19 @@ namespace Staff.BLL.Services
             }
         }
 
+        public async Task UpdateBlob(string id, string uri)
+        {
+            Guid identity = new Guid(id);
+
+            if (await _dishRepo.Exists(identity, _user.CompanyId))
+            {
+                Dish entity = await _dishRepo.Get(identity, _user.CompanyId);
+                entity.Blob = uri;
+
+                await _dishRepo.Update(entity);
+            }
+        }
+
         private async Task<Category> ExistsCategory(string id)
         {
             Guid identity = new Guid(id);

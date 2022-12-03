@@ -13,6 +13,8 @@ namespace Staff.Domain.Dishes
         [Required]
         public float Price { get; set; }
 
+        public string Blob { get; set; }
+
         public bool IsInStop { get; set; } = false;
     }
 }

@@ -43,7 +43,11 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<IAuthManager, AuthManager>();
 
+            services.AddScoped<IBlobManager, BlobManager>();
+
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<IBlobService, BlobService>();
 
             services.AddScoped<ICategoryService, CategoryService>();
 

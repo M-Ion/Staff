@@ -43,6 +43,7 @@ namespace Staff.Common.Configs
             CreateMap<Category, UpdateCategoryDto>().ReverseMap().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Dish, CreateDishDto>().ReverseMap().ForMember(d => d.Category, options => options.Ignore());
+            CreateMap<Dish, GetDishDto>().ReverseMap();
             CreateMap<Dish, DishDto>().ReverseMap();
             CreateMap<Dish, UpdateDishDto>().ReverseMap()
                 .ForMember(d => d.Category, options => options.Ignore())
