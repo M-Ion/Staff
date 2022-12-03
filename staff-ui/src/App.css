@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.flexColumn {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.authContainer {
+  margin: 64px 32px;
+}
+
+.authForm {
+  margin-top: 4px;
+  width: 100%;
+}
