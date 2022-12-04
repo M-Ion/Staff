@@ -18,6 +18,7 @@ namespace Staff.Common.Configs
         {
             CreateMap<AppUser, RegisterManagerDto>().ReverseMap();
             CreateMap<AppUser, GetAppUserDto>().ReverseMap();
+            CreateMap<AppUser, GetWorkerUserDto>().ReverseMap();
 
             CreateMap<WorkerUser, RegisterStaffDto>().ReverseMap();
             CreateMap<WorkerUser, GetAppUserDto>().ReverseMap();

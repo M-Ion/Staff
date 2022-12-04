@@ -75,6 +75,8 @@ namespace Staff.BLL.Services
             AuthResponseDto authResponse = await _tokenManager.GenerateTokens(user);
             authResponse.User = CheckUserDto(user);
 
+            authResponse.User.Roles = await _userManager.GetRolesAsync(user);
+
             return authResponse;
         }
 
@@ -94,6 +96,8 @@ namespace Staff.BLL.Services
                 RefreshToken = _currentCookies.RefreshToken,
                 User = CheckUserDto(appUser),
             };
+
+            responseDto.User.Roles = await _userManager.GetRolesAsync(appUser);
 
             return responseDto;
         }

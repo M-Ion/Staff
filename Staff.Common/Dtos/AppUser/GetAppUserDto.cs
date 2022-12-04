@@ -8,5 +8,9 @@ namespace Staff.Common.Dtos.AppUser
         public GetCompanyDto Company { get; set; }
 
         public string FullName { get; set; }
+
+        public string Email { get; set; }
+
+        public IList<string> Roles { get; set; }
     }
 }

@@ -47,6 +47,8 @@ namespace Staff.API.Infrastructure.Extensions
 
             services.AddScoped<IAuthService, AuthService>();
 
+            services.AddScoped<ICompanyService, CompanyService>();
+
             services.AddScoped<IBlobService, BlobService>();
 
             services.AddScoped<ICategoryService, CategoryService>();
