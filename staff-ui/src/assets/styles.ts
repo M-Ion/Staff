@@ -4,6 +4,10 @@ export const fullVHSx: SxProps = {
   height: "100vh",
 };
 
+export const fullW: SxProps = {
+  width: "100%",
+};
+
 export const alignLeftSx: SxProps = {
   alignSelf: "flex-start",
 };
