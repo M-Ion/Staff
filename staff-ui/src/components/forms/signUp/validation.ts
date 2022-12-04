@@ -17,7 +17,7 @@ const signUpSchema = yup.object().shape({
       "Password must contains 8 characters, one uppercase, one lowercase, one number and one special case character"
     )
     .required("Password is required"),
-  confirmPassword: yup
+  confirm: yup
     .string()
     .oneOf([yup.ref("password"), null], "Confirm password does not match")
     .required("Confirm your password"),

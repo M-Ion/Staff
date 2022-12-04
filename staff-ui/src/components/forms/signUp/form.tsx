@@ -4,29 +4,25 @@ import { useFormik } from "formik";
 import signUpSchema from "./validation";
 import FormField from "../../commons/formField";
 import { btnSubmitSx } from "../../../assets/styles";
+import { SignUpManager } from "../../../types/auth.types";
+import authService from "../../../services/auth.service";
 
-export interface SignUpFormValues {
-  fullName: string;
-  companyName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-const initialValues: SignUpFormValues = {
-  fullName: "",
-  companyName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+const initialValues: SignUpManager = {
+  fullName: "Norma Wall",
+  companyName: "Fancy",
+  email: "managerNorma@manager.com",
+  password: "P@sswordNorma1",
+  confirm: "",
 };
 
 const SignUpForm = () => {
-  const handleSubmit = async (values: SignUpFormValues) => {
-    console.log(values);
+  const [signUp, { isLoading }] = authService.useSignUpManagerMutation();
+
+  const handleSubmit = async (values: SignUpManager) => {
+    await signUp(values);
   };
 
-  const formik = useFormik<SignUpFormValues>({
+  const formik = useFormik<SignUpManager>({
     initialValues,
     onSubmit: handleSubmit,
     validationSchema: signUpSchema,
@@ -67,8 +63,17 @@ const SignUpForm = () => {
         type="password"
       />
 
+      <FormField
+        formik={formik}
+        fullWidth
+        label={"Confirm password"}
+        margin="normal"
+        prop={"confirm"}
+        type="password"
+      />
+
       <LoadingButton
-        loading={false}
+        loading={isLoading}
         type="submit"
         variant="contained"
         fullWidth

@@ -1,28 +1,35 @@
 import { LoadingButton } from "@mui/lab";
 import { useFormik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { btnSubmitSx } from "../../../assets/styles";
+import authService from "../../../services/auth.service";
+import { setState, UserState } from "../../../services/store/slices/user.slice";
+import { Login } from "../../../types/auth.types";
 import FormField from "../../commons/formField";
 import loginSchema from "./validation";
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
-const initialValues: LoginFormValues = {
-  email: "",
-  password: "",
+const initialValues: Login = {
+  email: "managerPaul@manager.com",
+  password: "P@sswordPaul1",
 };
 
-type Props = {};
+const LoginForm = () => {
+  const dispatch = useDispatch();
 
-const LoginForm = (props: Props) => {
-  const handleSubmit = async (values: LoginFormValues) => {
-    console.log(values);
+  const [login, { isLoading }] = authService.useLoginMutation();
+
+  const handleSubmit = async (values: Login) => {
+    const response = await login(values).unwrap();
+    const user: UserState = {
+      currentUser: response.user,
+      token: response.token,
+    };
+
+    dispatch(setState(user));
   };
 
-  const formik = useFormik<LoginFormValues>({
+  const formik = useFormik<Login>({
     initialValues,
     onSubmit: handleSubmit,
     validationSchema: loginSchema,
@@ -47,7 +54,7 @@ const LoginForm = (props: Props) => {
       />
 
       <LoadingButton
-        loading={false}
+        loading={isLoading}
         type="submit"
         variant="contained"
         fullWidth

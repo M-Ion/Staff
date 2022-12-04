@@ -42,7 +42,7 @@ namespace Staff.API.Infrastructure
             {
                 AuthResponseDto authResponse = await _authService.Refresh();
 
-                context.User = GenerateHttpContextUser(authResponse.Jwt);
+                context.User = GenerateHttpContextUser(authResponse.Token);
 
                 SetJwtCookie(context.Response, authResponse);
 
@@ -76,7 +76,7 @@ namespace Staff.API.Infrastructure
                 SameSite = SameSiteMode.None,
             };
 
-            httpResponse.Cookies.Append("jwt", authResponse.Jwt, options);
+            httpResponse.Cookies.Append("jwt", authResponse.Token, options);
         }
     }
 }

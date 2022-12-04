@@ -61,7 +61,7 @@ namespace Staff.API.Controllers
             SetCookieDto jwtCookieDto = new()
             {
                 Name = "jwt",
-                Value = authResponse.Jwt,
+                Value = authResponse.Token,
                 Expires = DateTime.UtcNow.AddMonths(Convert.ToInt32(_configuration["JwtConfig:DurationInMonths"]))
             };
 
@@ -90,7 +90,7 @@ namespace Staff.API.Controllers
             SetCookieDto jwtCookieDto = new()
             {
                 Name = "jwt",
-                Value = authResponse.Jwt,
+                Value = authResponse.Token,
                 Expires = DateTime.UtcNow.AddMonths(Convert.ToInt32(_configuration["JwtConfig:DurationInMonths"]))
             };
 

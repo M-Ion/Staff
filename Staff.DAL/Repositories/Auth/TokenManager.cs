@@ -40,7 +40,7 @@ namespace Staff.DAL.Repositories.Auth
 
             return new AuthResponseDto()
             {
-                Jwt = new JwtSecurityTokenHandler().WriteToken(jwt),
+                Token = new JwtSecurityTokenHandler().WriteToken(jwt),
                 RefreshToken = refreshToken,
             };
         }
@@ -79,7 +79,7 @@ namespace Staff.DAL.Repositories.Auth
 
                 return new AuthResponseDto
                 {
-                    Jwt = new JwtSecurityTokenHandler().WriteToken(jwt),
+                    Token = new JwtSecurityTokenHandler().WriteToken(jwt),
                     RefreshToken = storedRefreshToken.Value
                 };
             }

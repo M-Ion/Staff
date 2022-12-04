@@ -90,7 +90,7 @@ namespace Staff.BLL.Services
 
             AuthResponseDto responseDto = new()
             {
-                Jwt = _currentCookies.Jwt,
+                Token = _currentCookies.Jwt,
                 RefreshToken = _currentCookies.RefreshToken,
                 User = CheckUserDto(appUser),
             };
