@@ -15,7 +15,7 @@ const authService = apiService
         }),
       }),
 
-      fetchSession: build.mutation<User, void>({
+      fetchSession: build.mutation<AuthResp, void>({
         query: () => ({
           url: `/${controller}`,
           method: "GET",

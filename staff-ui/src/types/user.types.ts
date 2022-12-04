@@ -2,14 +2,16 @@ import { Company, GetCompany } from "./company.types";
 
 export type User = AppUser | WorkerUser;
 
-export interface AppUser {
+export interface BaseUser {
   id: string;
-  company: Company;
   fullName: string;
+  roles: string[];
 }
 
-export interface WorkerUser {
-  id: string;
+export interface AppUser extends BaseUser {
+  company: Company;
+}
+
+export interface WorkerUser extends BaseUser {
   company: GetCompany;
-  fullName: string;
 }

@@ -8,7 +8,12 @@ import Feedback from "./components/feedback";
 import { useEffect } from "react";
 import authService from "./services/auth.service";
 import { useDispatch } from "react-redux";
-import { setToken } from "./services/store/slices/user.slice";
+import {
+  setState as setUserState,
+  setToken,
+} from "./services/store/slices/user.slice";
+import ManagerPanelPage from "./pages/ManagerPanel";
+import WorkersPage from "./pages/Workers";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +26,9 @@ function App() {
 
     if (token) {
       dispatch(setToken(token));
-      await fetchSession();
+
+      const { user } = await fetchSession().unwrap();
+      dispatch(setUserState({ currentUser: user, token }));
     }
   };
 
@@ -34,6 +41,18 @@ function App() {
       <CssBaseline />
       <Feedback />
       <Routes>
+        <Route path="/manager/*" element={<ManagerPanelPage />}>
+          <Route
+            path=""
+            element={<Navigate to={"/manager/statistics"} replace />}
+          />
+          <Route path="menu" element={<div className="stats">Menu</div>} />
+          <Route
+            path="statistics"
+            element={<div className="stats">Statistics</div>}
+          />
+          <Route path="workers" element={<WorkersPage />} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<Navigate to={"/login"} replace />} />
