@@ -10,9 +10,10 @@ import { alignCenterSx } from "../../assets/styles";
 import { Order } from "../../types/order";
 import AddIcon from "@mui/icons-material/Add";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import React from "react";
+import React, { useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import orderService from "../../services/order.service";
+import DialogSafe from "../commons/dialogSafe";
 
 type Props = {
   last?: boolean;
@@ -22,6 +23,8 @@ type Props = {
 };
 
 const NoteOrder = ({ last, noteId, order, orders }: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   const [post] = orderService.usePostOrderMutation();
   const [deleteOrder] = orderService.useDeleteOrderMutation();
 
@@ -30,14 +33,16 @@ const NoteOrder = ({ last, noteId, order, orders }: Props) => {
     order.dish.price * order.quantity
   }`;
 
+  const handleOpen = () => setOpen(true);
+
   const handlePost = async () => {
     await post({ dish: order.dish.id, note: noteId });
   };
 
-  const handleRemove = async () => {
+  const handleRemove = (safe: string) => async () => {
     const id = orders.pop();
 
-    if (id) console.log(await deleteOrder(id));
+    if (id) console.log(await deleteOrder({ id, passcode: { safe } }));
   };
 
   return (
@@ -50,7 +55,7 @@ const NoteOrder = ({ last, noteId, order, orders }: Props) => {
         </ListItemAvatar>
         <ListItemText primary={fullName} secondary={details} />
 
-        <IconButton sx={{ ...alignCenterSx }} onClick={handleRemove}>
+        <IconButton sx={{ ...alignCenterSx }} onClick={handleOpen}>
           <RemoveIcon />
         </IconButton>
         {order.quantity}
@@ -58,6 +63,8 @@ const NoteOrder = ({ last, noteId, order, orders }: Props) => {
           <AddIcon />
         </IconButton>
       </ListItem>
+
+      <DialogSafe execute={handleRemove} openState={[open, setOpen]} />
       {last && <Divider />}
     </>
   );

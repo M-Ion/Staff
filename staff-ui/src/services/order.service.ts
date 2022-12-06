@@ -1,3 +1,4 @@
+import { Safe } from "../types/company.types";
 import { CreateOrder } from "../types/order";
 import apiService from "./api.service";
 
@@ -13,9 +14,10 @@ const orderService = apiService.injectEndpoints({
       }),
     }),
 
-    deleteOrder: build.mutation<void, string>({
+    deleteOrder: build.mutation<void, { id: string; passcode: Safe }>({
       query: (arg) => ({
-        url: `/${controller}/${arg}`,
+        url: `/${controller}/${arg.id}`,
+        body: arg.passcode,
         method: "DELETE",
       }),
     }),

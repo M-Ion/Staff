@@ -43,7 +43,7 @@ namespace Staff.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[ServiceFilter(typeof(SafeFilter))]
+        [ServiceFilter(typeof(SafeFilter))]
         [Authorize(Roles = "Waiter")]
         public async Task<ActionResult> Delete(string id)
         {

@@ -2,19 +2,20 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   IconButton,
 } from "@mui/material";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { ReactNode, SetStateAction } from "react";
 
 type Props = {
   children?: ReactNode | ReactNode[];
   icon?: JSX.Element;
+  title?: string;
   openState: [boolean, (value: SetStateAction<boolean>) => void];
 };
 
-const DialogContainer = ({ children, icon, openState }: Props) => {
+const DialogContainer = ({ children, icon, title, openState }: Props) => {
   const [open, setOpen] = openState;
 
   const handleClose = () => setOpen(false);
@@ -37,6 +38,7 @@ const DialogContainer = ({ children, icon, openState }: Props) => {
           <CloseIcon />
         </IconButton>
       </DialogActions>
+      {title && <DialogTitle sx={{ px: 5 }}>{title}</DialogTitle>}
       <DialogContent sx={{ paddingTop: 0, px: 5 }}>{children}</DialogContent>
     </Dialog>
   );

@@ -7,3 +7,7 @@ export interface GetCompany extends BaseEntity {
 export interface Company extends GetCompany {
   safe: string;
 }
+
+export interface Safe {
+  safe: string;
+}
