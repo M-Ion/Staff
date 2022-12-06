@@ -13,12 +13,12 @@ namespace Staff.BLL.Services
             _blobManager = blobManager;
         }
 
-        public async Task<bool> Upload(BlobDto blobDto, IFormFile form, Func<string, string, Task> update)
+        public async Task<bool> Upload(BlobDto blobDto, IFormFile file, Func<string, string, Task> update)
         {
-            string fileName = form.FileName.Split('.').First();
+            string fileName = file.FileName.Split('.').First();
             blobDto.Name = fileName;
 
-            string uri = await _blobManager.Upload(blobDto, form);
+            string uri = await _blobManager.Upload(blobDto, file);
 
             await update(fileName, uri);
 

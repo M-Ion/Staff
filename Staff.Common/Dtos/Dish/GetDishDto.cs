@@ -13,5 +13,7 @@ namespace Staff.Common.Dtos.Dish
         public float Price { get; set; }
 
         public bool IsInStop { get; set; }
+
+        public string Blob { get; set; }
     }
 }

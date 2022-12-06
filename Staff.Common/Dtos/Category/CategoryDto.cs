@@ -11,6 +11,6 @@ namespace Staff.Common.Dtos.Category
         public string Name { get; set; }
 
         [Required]
-        public DishTypes DishType { get; set; }
+        public string DishType { get; set; }
     }
 }

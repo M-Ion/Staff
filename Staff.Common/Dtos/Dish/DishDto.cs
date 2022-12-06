@@ -11,5 +11,7 @@ namespace Staff.Common.Dtos.Dish
         public CategoryDto Category { get; set; }
 
         public bool IsInStop { get; set; }
+
+        public string Blob { get; set; }
     }
 }

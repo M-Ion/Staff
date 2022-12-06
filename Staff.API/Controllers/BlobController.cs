@@ -20,14 +20,15 @@ namespace Staff.API.Controllers
             _dishService = dishService;
         }
 
-        [HttpPost]
+        [HttpPost()]
+        [Consumes("multipart/form-data")]
         [Authorize(Roles = "Manager")]
         [AllowedFile(new string[] { ".jpg", ".webp", ".jpeg", ".png" })]
-        public async Task<ActionResult> Post([FromForm] IFormFile form)
+        public async Task<ActionResult> Post([FromForm] IFormFile file)
         {
             BlobDto blobDto = new() { Container = BlobConstants.DishContainer };
 
-            bool uploaded = await _blobService.Upload(blobDto, form, _dishService.UpdateBlob);
+            bool uploaded = await _blobService.Upload(blobDto, file, _dishService.UpdateBlob);
 
             return uploaded ? Ok() : BadRequest();
         }

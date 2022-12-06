@@ -54,7 +54,7 @@ namespace Staff.BLL.Services
 
         public async Task<IEnumerable<IdentityError>> Register(RegisterStaffDto registerDto)
         {
-            Company company = await _companyRepository.Get(registerDto.CompanyId);
+            Company company = await _companyRepository.Get(_currentUser.CompanyId);
             WorkerUser user = _mapper.Map<WorkerUser>(registerDto);
 
             user.UserName = user.Email;
