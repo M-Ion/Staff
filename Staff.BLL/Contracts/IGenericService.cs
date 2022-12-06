@@ -1,4 +1,5 @@
 ﻿using Staff.Common.Dtos;
+using Staff.Common.Filtering;
 using Staff.Domain;
 
 namespace Staff.BLL.Contracts
@@ -15,6 +16,8 @@ namespace Staff.BLL.Contracts
         Task<T> Get(string id);
 
         Task<IList<TGet>> GetEvery();
+
+        Task<FilteredResult<T>> Get(IList<Filter> filters);
 
         Task Update(string id, TUpdate updateDto);
 

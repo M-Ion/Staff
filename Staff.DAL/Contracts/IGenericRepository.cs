@@ -1,4 +1,6 @@
-﻿using Staff.Domain;
+﻿using AutoMapper;
+using Staff.Common.Filtering;
+using Staff.Domain;
 
 namespace Staff.DAL.Contracts
 {
@@ -9,6 +11,8 @@ namespace Staff.DAL.Contracts
         Task<T> Get(Guid id, string companyId);
 
         Task<IList<T>> GetEvery(string companyId);
+
+        Task<FilteredResult<TDto>> GetAllAsyncProcessed<TDto>(string companyId, FilteredRequest filteredRequest, IMapper mapper) where TDto : class;
 
         Task<T> Add(T entity, string companyId);
 

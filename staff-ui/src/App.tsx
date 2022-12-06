@@ -16,6 +16,7 @@ import ManagerPanelPage from "./pages/ManagerPanel";
 import WorkersPage from "./pages/Workers";
 import CategoriesPage from "./pages/Categories";
 import DishesPage from "./pages/Dishes";
+import WaiterPage from "./pages/Waiter";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/waiter" element={<WaiterPage />} />
         <Route path="*" element={<Navigate to={"/login"} replace />} />
       </Routes>
     </div>

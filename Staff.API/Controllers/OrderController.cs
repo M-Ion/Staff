@@ -4,6 +4,7 @@ using Staff.API.Infrastructure.Filters;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Order;
+using Staff.Common.Filtering;
 
 namespace Staff.API.Controllers
 {
@@ -42,12 +43,20 @@ namespace Staff.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ServiceFilter(typeof(SafeFilter))]
+        //[ServiceFilter(typeof(SafeFilter))]
         [Authorize(Roles = "Waiter")]
         public async Task<ActionResult> Delete(string id)
         {
             await _orderService.Delete(id);
             return NoContent();
+        }
+
+        [HttpGet("Cook")]
+        [Authorize]
+        public async Task<ActionResult<FilteredResult<GetOrderDto>>> GetCookOrders([FromBody] IList<Filter> filters)
+        {
+            var result = await _orderService.Get(filters);
+            return Ok(result);
         }
     }
 }

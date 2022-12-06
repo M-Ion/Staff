@@ -22,6 +22,10 @@ export const alignLeftSx: SxProps = {
   alignSelf: "flex-start",
 };
 
+export const alignCenterSx: SxProps = {
+  alignSelf: "center",
+};
+
 export const btnSubmitSx: SxProps = {
   margin: "24px 0 16px",
 };
@@ -75,7 +79,36 @@ export const stickyFabSx = {
   top: "auto",
 };
 
+export const stickyLeftFabSx = {
+  bottom: 20,
+  left: 20,
+  margin: 0,
+  position: "fixed",
+  right: "auto",
+  top: "auto",
+};
+
 export const uploaderGridSx: SxProps = {
   alignItems: "flex-end",
   justifyContent: "space-between",
+};
+
+export const noteAccordionSx: SxProps = {
+  "&.Mui-expanded": {
+    backgroundColor: "#a5a5a5",
+    maxHeight: 15,
+    minHeight: 15,
+  },
+};
+
+export const noteAccordionSummSx: SxProps = {
+  "& .MuiAccordionSummary-content": {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+};
+
+export const noteListSx: SxProps = {
+  bgcolor: "background.paper",
+  width: "100%",
 };

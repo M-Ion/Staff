@@ -3,9 +3,9 @@ using Staff.Domain.Dishes;
 
 namespace Staff.Common.Dtos.Order
 {
-    public class GetOrderDto
+    public class GetOrderDto : BaseDto
     {
-        public virtual GetDishDto Dish { get; set; }
+        public virtual DishDto Dish { get; set; }
 
         public int Quantity { get; set; } = 1;
 

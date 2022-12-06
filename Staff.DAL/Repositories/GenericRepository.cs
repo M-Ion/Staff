@@ -1,6 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Staff.Common.Filtering;
 using Staff.DAL.Contracts;
+using Staff.DAL.Extensions;
 using Staff.Domain;
+using System.Linq;
 
 namespace Staff.DAL.Repositories
 {
@@ -43,6 +47,11 @@ namespace Staff.DAL.Repositories
                 );
 
             return entity;
+        }
+
+        public async Task<FilteredResult<TDto>> GetAllAsyncProcessed<TDto>(string companyId, FilteredRequest filteredRequest, IMapper mapper) where TDto : class
+        {
+            return await _context.Set<T>().Where(e => e.Company.Id.ToString() == companyId).Query<T, TDto>(filteredRequest, mapper);
         }
 
         public async Task<IList<T>> GetEvery(string companyId)

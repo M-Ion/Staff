@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
+using Staff.Common.Filtering;
 using Staff.DAL.Contracts;
 using Staff.Domain;
 using System;
@@ -94,6 +95,14 @@ namespace Staff.BLL.Services
         {
             Guid guid = new(id);
             return await _repo.Exists(guid, _user.CompanyId);
+        }
+
+        public async Task<FilteredResult<T>> Get(IList<Filter> filters)
+        {
+            FilteredRequest request = new() { Filters = filters };
+            FilteredResult<T> result = await _repo.GetAllAsyncProcessed<T>(_user.CompanyId, request, _mapper);
+
+            return result;
         }
     }
 }
