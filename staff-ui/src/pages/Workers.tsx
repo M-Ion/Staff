@@ -1,11 +1,13 @@
-import React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { selectUser } from "../services/store/slices/user.slice";
-import { useSelector } from "react-redux";
-import { AppUser } from "../types/user.types";
+import React, { useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import AddIcon from "@mui/icons-material/Add";
 import companyService from "../services/company.service";
-
-type Props = {};
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import { workersTableSx } from "./styles";
+import { Box, Fab } from "@mui/material";
+import WorkerForm from "../components/forms/worker";
+import DialogContainer from "../components/commons/dialogContainer";
+import { stickyFabSx } from "../assets/styles";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 300 },
@@ -22,22 +24,35 @@ const columns: GridColDef[] = [
   },
 ];
 
-const WorkersPage = (props: Props) => {
+const WorkersPage = () => {
+  const [open, setOpen] = useState<boolean>(false);
   const { data } = companyService.useFetchWorkersQuery();
-  console.log(data);
+
+  const handleOpen = () => setOpen(true);
 
   return (
-    <div style={{ height: 400, margin: "16px auto", width: "75%" }}>
-      {data && (
-        <DataGrid
-          disableSelectionOnClick
-          rows={data}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
-      )}
-    </div>
+    <>
+      <Box sx={{ ...workersTableSx }}>
+        {data && (
+          <DataGrid
+            disableSelectionOnClick
+            rows={data}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+        )}
+      </Box>
+      <Fab color="primary" onClick={handleOpen} sx={stickyFabSx}>
+        <AddIcon />
+      </Fab>
+      <DialogContainer
+        icon={<GroupAddIcon color="primary" />}
+        openState={[open, setOpen]}
+      >
+        <WorkerForm />
+      </DialogContainer>
+    </>
   );
 };
 

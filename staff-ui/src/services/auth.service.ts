@@ -1,5 +1,10 @@
-import { AuthResp, Login, SignUpManager, TokenResp } from "../types/auth.types";
-import { User } from "../types/user.types";
+import {
+  AuthResp,
+  Login,
+  SignUpManager,
+  SignUpStaff,
+  TokenResp,
+} from "../types/auth.types";
 import apiService from "./api.service";
 
 const controller: string = "Auth";
@@ -33,6 +38,14 @@ const authService = apiService
       signUpManager: build.mutation<void, SignUpManager>({
         query: (arg) => ({
           url: `${controller}/Register/Manager`,
+          body: arg,
+          method: "POST",
+        }),
+      }),
+
+      signUpStaff: build.mutation<void, SignUpStaff>({
+        query: (arg) => ({
+          url: `${controller}/Register/Staff`,
           body: arg,
           method: "POST",
         }),

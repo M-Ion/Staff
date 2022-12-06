@@ -1,5 +1,6 @@
-export interface GetCompany {
-  id: string;
+import { BaseEntity } from "./base.types";
+
+export interface GetCompany extends BaseEntity {
   name: string;
 }
 

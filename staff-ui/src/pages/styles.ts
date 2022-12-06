@@ -10,3 +10,9 @@ export const authBgImgSx = (img: string): SxProps => ({
 export const authAvatarSx: SxProps = {
   margin: "8px",
 };
+
+export const workersTableSx = {
+  height: 400,
+  margin: "16px auto",
+  width: "75%",
+};

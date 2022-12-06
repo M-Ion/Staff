@@ -61,4 +61,21 @@ export const navSx: SxProps = {
   },
 };
 
-export const adminSubPageSx: SxProps = {};
+export const selectSx: SxProps = {
+  my: 1,
+  minWidth: 120,
+};
+
+export const stickyFabSx = {
+  bottom: 20,
+  left: "auto",
+  margin: 0,
+  position: "fixed",
+  right: 20,
+  top: "auto",
+};
+
+export const uploaderGridSx: SxProps = {
+  alignItems: "flex-end",
+  justifyContent: "space-between",
+};

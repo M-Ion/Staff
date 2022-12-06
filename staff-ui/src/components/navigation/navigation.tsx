@@ -11,6 +11,7 @@ import React, { ReactNode } from "react";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import CategoryIcon from "@mui/icons-material/Category";
 import { navSx } from "../../assets/styles";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const navItems = [
   { title: "Statistics", icon: <QueryStatsIcon /> },
   { title: "Workers", icon: <Diversity3Icon /> },
   { title: "Menu", icon: <RamenDiningIcon /> },
+  { title: "Categories", icon: <CategoryIcon /> },
 ];
 
 const Navigation = ({ children }: Props) => {

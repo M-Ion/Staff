@@ -14,6 +14,8 @@ import {
 } from "./services/store/slices/user.slice";
 import ManagerPanelPage from "./pages/ManagerPanel";
 import WorkersPage from "./pages/Workers";
+import CategoriesPage from "./pages/Categories";
+import DishesPage from "./pages/Dishes";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +48,8 @@ function App() {
             path=""
             element={<Navigate to={"/manager/statistics"} replace />}
           />
-          <Route path="menu" element={<div className="stats">Menu</div>} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="menu" element={<DishesPage />} />
           <Route
             path="statistics"
             element={<div className="stats">Statistics</div>}
