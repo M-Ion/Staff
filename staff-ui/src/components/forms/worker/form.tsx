@@ -1,35 +1,37 @@
 import React from "react";
 import { LoadingButton } from "@mui/lab";
 import { FormikHelpers, useFormik } from "formik";
-import signUpSchema from "./validation";
 import FormField from "../../commons/formField";
-import { btnSubmitSx } from "../../../assets/styles";
-import { SignUpManager } from "../../../types/auth.types";
+import { btnSubmitSx, selectSx } from "../../../assets/styles";
+import { SignUpStaff, StaffRoles } from "../../../types/auth.types";
+import workerSchema from "./validation";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import authService from "../../../services/auth.service";
 
-const initialValues: SignUpManager = {
+const initialValues: SignUpStaff = {
   fullName: "Norma Wall",
-  companyName: "Fancy",
+  companyName: "",
   email: "managerNorma@manager.com",
   password: "P@sswordNorma1",
   confirm: "",
+  role: StaffRoles.Waiter,
 };
 
-const SignUpForm = () => {
-  const [signUp, { isLoading }] = authService.useSignUpManagerMutation();
+const WorkerForm = () => {
+  const [signUp, { isLoading }] = authService.useSignUpStaffMutation();
 
   const handleSubmit = async (
-    values: SignUpManager,
-    { resetForm }: FormikHelpers<SignUpManager>
+    values: SignUpStaff,
+    { resetForm }: FormikHelpers<SignUpStaff>
   ) => {
     await signUp(values);
     resetForm();
   };
 
-  const formik = useFormik<SignUpManager>({
+  const formik = useFormik<SignUpStaff>({
     initialValues,
     onSubmit: handleSubmit,
-    validationSchema: signUpSchema,
+    validationSchema: workerSchema,
   });
 
   return (
@@ -42,13 +44,19 @@ const SignUpForm = () => {
         margin="normal"
       />
 
-      <FormField
-        formik={formik}
-        label={"Company"}
-        prop={"companyName"}
-        fullWidth
-        margin="normal"
-      />
+      <FormControl variant="standard" sx={{ ...selectSx }}>
+        <InputLabel>Role</InputLabel>
+        <Select
+          name="role"
+          value={formik.values.role}
+          onChange={formik.handleChange}
+          label="Role"
+        >
+          <MenuItem value={StaffRoles.Cook}>Cook</MenuItem>
+          <MenuItem value={StaffRoles.Barkeep}>Barkeep</MenuItem>
+          <MenuItem value={StaffRoles.Waiter}>Waiter</MenuItem>
+        </Select>
+      </FormControl>
 
       <FormField
         formik={formik}
@@ -83,10 +91,10 @@ const SignUpForm = () => {
         fullWidth
         sx={{ ...btnSubmitSx }}
       >
-        Sign Up
+        Add
       </LoadingButton>
     </form>
   );
 };
 
-export default SignUpForm;
+export default WorkerForm;
