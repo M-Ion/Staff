@@ -8,15 +8,17 @@ import {
   List,
   Typography,
 } from "@mui/material";
+import { groupOrders } from "../../utils/array.utils";
 import { Note } from "../../types/note.types";
+import { setNote } from "../../services/store/slices/note.slice";
+import { useDispatch } from "react-redux";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DialogSafe from "../commons/dialogSafe";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import noteService from "../../services/note.service";
-import React, { SetStateAction } from "react";
 import NoteOrder from "../order";
-import { groupOrders } from "../../utils/array.utils";
-import { Order } from "../../types/order";
+import noteService from "../../services/note.service";
+import React, { SetStateAction, useState } from "react";
 
 type Props = {
   note: Note;
@@ -27,62 +29,78 @@ type Props = {
 };
 
 const PaymentNote = ({ expandedState, note }: Props) => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = expandedState;
+
   const [deleteNote] = noteService.useDeleteNoteMutation();
   const groupedOrders = groupOrders(note.orders);
+  const total = groupedOrders.reduce(
+    (acc, current) => (acc += current.dish.price * current.quantity),
+    0
+  );
 
   const identity = note.id.split("-")[0];
   const expand = expanded === note.id;
 
-  const handleDelete = async () => {
-    await deleteNote(note.id);
+  const handleOpen = () => setOpen(true);
+
+  const handleDelete = (safe: string) => async () => {
+    await deleteNote({ id: note.id, passcode: { safe } });
   };
 
   const handleChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? note.id : null);
+    dispatch(setNote(isExpanded ? note : null));
   };
 
   return (
-    <Accordion expanded={expand} onChange={handleChange}>
-      <AccordionSummary
-        sx={noteAccordionSummSx}
-        expandIcon={<ExpandMoreIcon />}
-      >
-        <Typography>{identity}</Typography>
-      </AccordionSummary>
+    <>
+      <Accordion expanded={expand} onChange={handleChange}>
+        <AccordionSummary
+          sx={noteAccordionSummSx}
+          expandIcon={<ExpandMoreIcon />}
+        >
+          <Typography>{identity}</Typography>
 
-      <AccordionActions>
-        <IconButton onClick={handleDelete}>
-          <DeleteIcon color="error" />
-        </IconButton>
-        <IconButton>
-          <CheckCircleIcon color="success" />
-        </IconButton>
-      </AccordionActions>
+          <Typography sx={{ color: "text.secondary" }}>{total}</Typography>
+        </AccordionSummary>
 
-      <AccordionDetails>
-        <List sx={noteListSx}>
-          {groupedOrders.map((order, i) => {
-            let orders: string[] = [];
+        <AccordionActions>
+          <IconButton onClick={handleOpen}>
+            <DeleteIcon color="error" />
+          </IconButton>
+          <IconButton>
+            <CheckCircleIcon color="success" />
+          </IconButton>
+        </AccordionActions>
 
-            note.orders.forEach((o) => {
-              if (o.dish.id === order.dish.id) {
-                orders.push(o.id);
-              }
-            });
+        <AccordionDetails>
+          <List sx={noteListSx}>
+            {groupedOrders.map((order, i) => {
+              let orders: string[] = [];
 
-            return (
-              <NoteOrder
-                key={i}
-                noteId={note.id}
-                order={order}
-                orders={orders}
-              />
-            );
-          })}
-        </List>
-      </AccordionDetails>
-    </Accordion>
+              note.orders.forEach((o) => {
+                if (o.dish.id === order.dish.id) {
+                  orders.push(o.id);
+                }
+              });
+
+              return (
+                <NoteOrder
+                  key={i}
+                  noteId={note.id}
+                  order={order}
+                  orders={orders}
+                />
+              );
+            })}
+          </List>
+        </AccordionDetails>
+      </Accordion>
+
+      <DialogSafe execute={handleDelete} openState={[open, setOpen]} />
+    </>
   );
 };
 

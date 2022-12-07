@@ -1,5 +1,6 @@
-import { BaseEntity } from "../types/base.types";
 import { Category, CreateCategory } from "../types/category.types";
+import { ReqFilter } from "../types/request.types";
+import { FilteredResp } from "../types/response.types";
 import apiService from "./api.service";
 
 const controller: string = "Category";
@@ -9,6 +10,17 @@ const categoryService = apiService.injectEndpoints({
     fetchCategories: build.query<Category[], void>({
       query: () => ({
         url: `/${controller}`,
+      }),
+    }),
+
+    fetchFilteredCategories: build.mutation<
+      FilteredResp<Category>,
+      ReqFilter[]
+    >({
+      query: (arg) => ({
+        url: `/${controller}/Filtered`,
+        body: arg,
+        method: "POST",
       }),
     }),
 

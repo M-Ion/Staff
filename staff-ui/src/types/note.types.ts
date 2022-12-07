@@ -1,4 +1,4 @@
-import { Order } from "./order";
+import { Order } from "./order.types";
 
 export interface Note {
   id: string;

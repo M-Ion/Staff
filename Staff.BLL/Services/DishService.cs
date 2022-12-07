@@ -43,6 +43,12 @@ namespace Staff.BLL.Services
             }
         }
 
+        public async Task<IList<DishDto>> GetByCategory(string categoryId)
+        {
+            IList<Dish> entities = await _dishRepo.GetByCategory(categoryId, _user.CompanyId);
+            return _mapper.Map<IList<DishDto>>(entities);
+        }
+
         public override async Task Update(string id, UpdateDishDto updateDto)
         {
             if (updateDto.Category is null)

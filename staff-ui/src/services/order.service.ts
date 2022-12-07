@@ -1,5 +1,5 @@
 import { Safe } from "../types/company.types";
-import { CreateOrder } from "../types/order";
+import { CreateOrder } from "../types/order.types";
 import apiService from "./api.service";
 
 const controller: string = "Order";

@@ -36,8 +36,7 @@ const DishForm = (props: Props) => {
 
     if (file) {
       const formData = prepareFileFormData(file, response.id);
-      console.log(await upload(formData));
-      console.log(file);
+      await upload(formData);
     }
 
     resetForm();

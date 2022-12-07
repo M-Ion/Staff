@@ -1,3 +1,4 @@
+import { Safe } from "../types/company.types";
 import { Note } from "../types/note.types";
 import apiService from "./api.service";
 
@@ -19,9 +20,10 @@ const noteService = apiService.injectEndpoints({
       }),
     }),
 
-    deleteNote: build.mutation<void, string>({
+    deleteNote: build.mutation<void, { id: string; passcode: Safe }>({
       query: (arg) => ({
-        url: `/${controller}/${arg}`,
+        url: `/${controller}/${arg.id}`,
+        body: arg.passcode,
         method: "DELETE",
       }),
     }),

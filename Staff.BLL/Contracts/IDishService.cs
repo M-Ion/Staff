@@ -6,5 +6,7 @@ namespace Staff.BLL.Contracts
     public interface IDishService : IGenericService<Dish, DishDto, DishDto, CreateDishDto, UpdateDishDto>
     {
         Task UpdateBlob(string id, string uri);
+
+        Task<IList<DishDto>> GetByCategory(string categoryId);
     }
 }

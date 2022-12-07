@@ -12,6 +12,13 @@ const dishService = apiService.injectEndpoints({
       }),
     }),
 
+    fetchDishesByCategory: build.query<Dish[], string>({
+      query: (arg) => ({
+        url: `/${controller}/Category`,
+        params: { category: arg },
+      }),
+    }),
+
     postDish: build.mutation<BaseEntity, CreateDish>({
       query: (arg) => ({
         url: `/${controller}`,

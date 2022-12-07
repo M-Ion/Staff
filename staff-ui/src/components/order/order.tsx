@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { alignCenterSx } from "../../assets/styles";
-import { Order } from "../../types/order";
+import { Order } from "../../types/order.types";
 import AddIcon from "@mui/icons-material/Add";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import React, { useState } from "react";

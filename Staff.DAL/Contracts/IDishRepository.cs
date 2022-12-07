@@ -9,5 +9,6 @@ namespace Staff.DAL.Contracts
 {
     public interface IDishRepository : IGenericRepository<Dish>
     {
+        Task<IList<Dish>> GetByCategory(string categoryId, string companyId);
     }
 }

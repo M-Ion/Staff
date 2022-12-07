@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
+using Staff.Common.Filtering;
 
 namespace Staff.API.Controllers
 {
@@ -22,6 +23,13 @@ namespace Staff.API.Controllers
         public async Task<ActionResult<IList<DishDto>>> Get()
         {
             return Ok(await _dishService.GetEvery());
+        }
+
+        [HttpGet("Category")]
+        [Authorize]
+        public async Task<ActionResult<FilteredResult<DishDto>>> GetFiltered([FromQuery] string category)
+        {
+            return Ok(await _dishService.GetByCategory(category));
         }
 
         [HttpPost]

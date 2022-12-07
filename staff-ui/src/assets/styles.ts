@@ -112,3 +112,20 @@ export const noteListSx: SxProps = {
   bgcolor: "background.paper",
   width: "100%",
 };
+
+export const verticalScrollSx: SxProps = {
+  maxHeight: "100%",
+  overflowY: "scroll",
+};
+
+export const waiterMenuBox: SxProps = {
+  borderBottom: 1,
+  borderColor: "divider",
+};
+
+export const categoryPaper: SxProps = {
+  height: 80,
+  lineHeight: "80px",
+  textAlign: "center",
+  width: "100%",
+};

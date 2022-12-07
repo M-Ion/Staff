@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Category;
+using Staff.Common.Filtering;
 
 namespace Staff.API.Controllers
 {
@@ -23,6 +24,13 @@ namespace Staff.API.Controllers
         public async Task<ActionResult<IList<CategoryDto>>> Get()
         {
             return Ok(await _categoryService.GetEvery());
+        }
+
+        [HttpPost("Filtered")]
+        [Authorize]
+        public async Task<ActionResult<FilteredResult<CategoryDto>>> GetFiltered([FromBody] IList<Filter> filters)
+        {
+            return Ok(await _categoryService.Get(filters));
         }
 
         [HttpPost]

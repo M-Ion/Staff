@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Order } from "../types/order";
+import { Order } from "../types/order.types";
 
 export const findIndex = <T>(a: T[] | readonly T[], b: T) =>
   a.findIndex((item) => _.isEqual(item, b));

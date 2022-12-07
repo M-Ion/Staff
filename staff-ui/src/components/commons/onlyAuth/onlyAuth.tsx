@@ -30,6 +30,7 @@ const OnlyAuth = ({ children, roles }: Props) => {
 
   useEffect(() => {
     authorize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   return forbid ? null : <>{children}</>;

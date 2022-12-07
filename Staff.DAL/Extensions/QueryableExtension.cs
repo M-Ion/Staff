@@ -78,7 +78,13 @@ namespace Staff.DAL.Extensions
         private static Expression GetExpression<T>(ParameterExpression param, Filter filter)
         {
             MemberExpression member = Expression.Property(param, filter.Prop);
-            ConstantExpression constant = Expression.Constant(Convert.ChangeType(filter.Value, member.Type));
+
+            object value;
+
+            if (member.Type.IsEnum) value = Enum.ToObject(member.Type, filter.Value);
+            else value = Convert.ChangeType(filter.Value, member.Type);
+
+            ConstantExpression constant = Expression.Constant(value);
 
             switch (filter?.Operation)
             {
