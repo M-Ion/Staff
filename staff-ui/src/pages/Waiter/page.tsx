@@ -1,10 +1,13 @@
 import { Grid, Paper } from "@mui/material";
 import { fullVHSx, verticalScrollSx } from "../../assets/styles";
 import Header from "../../components/header";
+import useAuth from "../../hooks/useAuth.hook";
 import Menu from "./components/menu";
 import NotesList from "./components/notesList";
 
 const WaiterPage = () => {
+  useAuth([process.env.REACT_APP_WAITER_ROLE as string]);
+
   return (
     <>
       <Header />

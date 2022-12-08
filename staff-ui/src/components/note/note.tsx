@@ -19,6 +19,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import NoteOrder from "../order";
 import noteService from "../../services/note.service";
 import React, { SetStateAction, useState } from "react";
+import {
+  setSuccess,
+  setWarning,
+} from "../../services/store/slices/feedback.slice";
 
 type Props = {
   note: Note;
@@ -33,6 +37,7 @@ const PaymentNote = ({ expandedState, note }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = expandedState;
 
+  const [completeNote] = noteService.useCompleteNoteMutation();
   const [deleteNote] = noteService.useDeleteNoteMutation();
   const groupedOrders = groupOrders(note.orders);
   const total = groupedOrders.reduce(
@@ -45,8 +50,14 @@ const PaymentNote = ({ expandedState, note }: Props) => {
 
   const handleOpen = () => setOpen(true);
 
+  const handleComplete = async () => {
+    await completeNote(note.id);
+    dispatch(setSuccess(`Note ${identity} completed.`));
+  };
+
   const handleDelete = (safe: string) => async () => {
     await deleteNote({ id: note.id, passcode: { safe } });
+    dispatch(setWarning(`Note ${identity} deleted.`));
   };
 
   const handleChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -70,7 +81,7 @@ const PaymentNote = ({ expandedState, note }: Props) => {
           <IconButton onClick={handleOpen}>
             <DeleteIcon color="error" />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleComplete}>
             <CheckCircleIcon color="success" />
           </IconButton>
         </AccordionActions>

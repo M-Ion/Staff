@@ -13,18 +13,17 @@ import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LoginIcon from "@mui/icons-material/Login";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   headerBtnSx,
   growSx,
   logoIconSx,
   logoTitleSx,
 } from "../../assets/styles";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectUser } from "../../services/store/slices/user.slice";
+import { useSelector } from "react-redux";
 import OnlyAuth from "../commons/onlyAuth";
-
-const pages = ["Dashboard"];
 
 type Props = {
   headerSx?: SxProps;
@@ -32,6 +31,27 @@ type Props = {
 
 const Header = ({ headerSx }: Props) => {
   const currentUser = useSelector(selectUser);
+  const [workspace, setWorkspace] = useState<string>("/login");
+
+  useEffect(() => {
+    if (currentUser) {
+      if (
+        currentUser.roles.find(
+          (r) => r === (process.env.REACT_APP_MANAGER_ROLE as string)
+        )
+      ) {
+        setWorkspace("/manager");
+        return;
+      } else if (
+        currentUser.roles.find(
+          (r) => r === (process.env.REACT_APP_WAITER_ROLE as string)
+        )
+      ) {
+        setWorkspace("/waiter");
+        return;
+      }
+    }
+  }, [currentUser]);
 
   return (
     <AppBar position="static" sx={headerSx ? headerSx : {}}>
@@ -48,11 +68,9 @@ const Header = ({ headerSx }: Props) => {
             STAFF
           </Typography>
           <Box sx={{ ...growSx }}>
-            {pages.map((page) => (
-              <Button key={page} sx={{ ...headerBtnSx }}>
-                {page}
-              </Button>
-            ))}
+            <Link to={workspace} style={{ textDecoration: "none" }}>
+              <Button sx={{ ...headerBtnSx }}>Workspace</Button>
+            </Link>
           </Box>
           <Box>
             <IconButton>

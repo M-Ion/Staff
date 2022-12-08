@@ -129,3 +129,8 @@ export const categoryPaper: SxProps = {
   textAlign: "center",
   width: "100%",
 };
+
+export const feedbackStatusSx: SxProps = {
+  textAlign: "start",
+  textTransform: "capitalize",
+};

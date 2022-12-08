@@ -3,7 +3,7 @@ using Staff.Domain;
 
 namespace Staff.DAL.Triggers
 {
-    public class DeleteNoteTrigger : IAfterSaveTrigger<Note>
+    public class DeleteNoteTrigger : IBeforeSaveTrigger<Note>
     {
         readonly StaffDbContext _context;
 
@@ -12,10 +12,10 @@ namespace Staff.DAL.Triggers
             _context = context;
         }
 
-        public async Task AfterSave(ITriggerContext<Note> context, CancellationToken cancellationToken)
+        public async Task BeforeSave(ITriggerContext<Note> context, CancellationToken cancellationToken)
         {
             if (context.ChangeType == ChangeType.Deleted)
-            { 
+            {
                 IList<Order> orders = context.Entity.Orders;
                 if (orders != null) _context.RemoveRange(orders);
             }

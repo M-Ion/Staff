@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Staff.API.Infrastructure.Filters;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Note;
@@ -48,6 +49,7 @@ namespace Staff.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(SafeFilter))]
         [Authorize(Roles = "Waiter")]
         public async Task<ActionResult> Delete(string id)
         {

@@ -12,6 +12,8 @@ const orderService = apiService.injectEndpoints({
         method: "POST",
         body: arg,
       }),
+
+      invalidatesTags: ["Note"],
     }),
 
     deleteOrder: build.mutation<void, { id: string; passcode: Safe }>({
@@ -20,6 +22,8 @@ const orderService = apiService.injectEndpoints({
         body: arg.passcode,
         method: "DELETE",
       }),
+
+      invalidatesTags: ["Note"],
     }),
   }),
 });

@@ -10,6 +10,7 @@ const noteService = apiService.injectEndpoints({
       query: () => ({
         url: `/${controller}/Worker`,
       }),
+      providesTags: ["Note"],
     }),
 
     postNote: build.mutation<void, void>({
@@ -18,6 +19,17 @@ const noteService = apiService.injectEndpoints({
         method: "POST",
         body: {},
       }),
+      invalidatesTags: ["Note"],
+    }),
+
+    completeNote: build.mutation<void, string>({
+      query: (arg) => ({
+        url: `/${controller}/${arg}`,
+        method: "PUT",
+        body: { isCompleted: true },
+      }),
+
+      invalidatesTags: ["Note"],
     }),
 
     deleteNote: build.mutation<void, { id: string; passcode: Safe }>({
@@ -26,6 +38,8 @@ const noteService = apiService.injectEndpoints({
         body: arg.passcode,
         method: "DELETE",
       }),
+
+      invalidatesTags: ["Note"],
     }),
   }),
 });

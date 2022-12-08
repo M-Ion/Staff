@@ -20,7 +20,7 @@ const ItemsPanel = ({ category, ...others }: Props & TabPanelProps) => {
       >
         {data &&
           data.map((el, i) => (
-            <Grid item xs={2} sm={3} md={3} lg={4} key={i}>
+            <Grid item xs={2} sm={3} md={4} lg={4} key={i}>
               <ItemCard item={el} />
             </Grid>
           ))}

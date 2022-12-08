@@ -31,7 +31,7 @@ const ItemCard = ({ item }: Props) => {
         component="img"
         alt="green iguana"
         height="140"
-        image="/food.jpg"
+        image={item.blob ?? "/default.jpg"}
       />
       <CardContent sx={{ textAlign: "start" }}>
         <Typography gutterBottom variant="h5" component="div">

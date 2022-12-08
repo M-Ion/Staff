@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/user.slice";
 import noteReducer from "./slices/note.slice";
+import feedbackReducer from "./slices/feedback.slice";
 import apiService from "../api.service";
 import blobService from "../blob.service";
 
 const root = combineReducers({
   user: userReducer,
   note: noteReducer,
+  feedback: feedbackReducer,
   [apiService.reducerPath]: apiService.reducer,
   [blobService.reducerPath]: blobService.reducer,
 });
