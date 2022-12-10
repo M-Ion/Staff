@@ -5,6 +5,18 @@ export interface Order extends BaseEntity {
   dish: Dish;
   isPrepared: boolean;
   quantity: number;
+  created: string;
+  user: {
+    id: string;
+    fullName: string;
+  };
+}
+
+export interface UpdateOrder {
+  id: string;
+  body: {
+    isPrepared: boolean;
+  };
 }
 
 export interface CreateOrder {

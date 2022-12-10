@@ -88,6 +88,15 @@ export const stickyLeftFabSx = {
   top: "auto",
 };
 
+export const stickyTopRightFabSx = {
+  bottom: "auto",
+  left: "auto",
+  margin: 0,
+  position: "fixed",
+  right: 50,
+  top: 80,
+};
+
 export const uploaderGridSx: SxProps = {
   alignItems: "flex-end",
   justifyContent: "space-between",
@@ -132,5 +141,16 @@ export const categoryPaper: SxProps = {
 
 export const feedbackStatusSx: SxProps = {
   textAlign: "start",
+  textTransform: "capitalize",
+};
+
+export const menuDrawer: SxProps = {
+  "& .MuiDrawer-paper": {
+    width: "50vw",
+    boxSizing: "border-box",
+  },
+};
+
+export const textCapitalize: SxProps = {
   textTransform: "capitalize",
 };

@@ -1,5 +1,7 @@
 import { BaseEntity } from "../types/base.types";
-import { CreateDish, Dish } from "../types/dish.types";
+import { CreateDish, Dish, UpdateDish } from "../types/dish.types";
+import { ReqFilter } from "../types/request.types";
+import { FilteredResp } from "../types/response.types";
 import apiService from "./api.service";
 
 const controller: string = "Dish";
@@ -19,11 +21,27 @@ const dishService = apiService.injectEndpoints({
       }),
     }),
 
+    fetchFilteredDishes: build.mutation<FilteredResp<Dish>, ReqFilter[]>({
+      query: (arg) => ({
+        url: `/${controller}/Filtered`,
+        method: "POST",
+        body: arg,
+      }),
+    }),
+
     postDish: build.mutation<BaseEntity, CreateDish>({
       query: (arg) => ({
         url: `/${controller}`,
         method: "POST",
         body: arg,
+      }),
+    }),
+
+    updateDish: build.mutation<void, UpdateDish>({
+      query: (arg) => ({
+        url: `/${controller}/${arg.id}`,
+        method: "PUT",
+        body: arg.body,
       }),
     }),
 

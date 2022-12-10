@@ -1,6 +1,4 @@
-﻿using MarvelCU.Common.Models.Processing;
-
-namespace Staff.Common.Filtering
+﻿namespace Staff.Common.Filtering
 {
     public class Filter
     {

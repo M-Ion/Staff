@@ -17,6 +17,7 @@ import WorkersPage from "./pages/Workers";
 import CategoriesPage from "./pages/Categories";
 import DishesPage from "./pages/Dishes";
 import WaiterPage from "./pages/Waiter";
+import OrdersPage from "./pages/Orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
       <CssBaseline />
       <Feedback />
       <Routes>
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/manager/*" element={<ManagerPanelPage />}>
           <Route
             path=""
@@ -57,7 +59,7 @@ function App() {
           />
           <Route path="workers" element={<WorkersPage />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/waiter" element={<WaiterPage />} />
         <Route path="*" element={<Navigate to={"/login"} replace />} />

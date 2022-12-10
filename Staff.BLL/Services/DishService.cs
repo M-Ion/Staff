@@ -2,6 +2,7 @@
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
+using Staff.Common.Filtering;
 using Staff.DAL.Contracts;
 using Staff.Domain.Dishes;
 
@@ -45,8 +46,11 @@ namespace Staff.BLL.Services
 
         public async Task<IList<DishDto>> GetByCategory(string categoryId)
         {
-            IList<Dish> entities = await _dishRepo.GetByCategory(categoryId, _user.CompanyId);
-            return _mapper.Map<IList<DishDto>>(entities);
+            Filter filter = new() { Prop = "category.Id", Operation = Op.Eq, Value = categoryId };
+            FilteredRequest filteredRequest = new() { Filters = new List<Filter>() { filter } };
+
+            FilteredResult<DishDto> result = await _dishRepo.GetAllAsyncProcessed<DishDto>(_user.CompanyId, filteredRequest, _mapper);
+            return result.Items;
         }
 
         public override async Task Update(string id, UpdateDishDto updateDto)

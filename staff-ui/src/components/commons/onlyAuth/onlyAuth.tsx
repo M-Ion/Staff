@@ -19,8 +19,9 @@ const OnlyAuth = ({ children, roles }: Props) => {
       authorized = true;
 
       if (roles) {
+        authorized = false;
         roles.forEach((role) => {
-          if (!currentUser.roles.includes(role)) authorized = false;
+          if (currentUser.roles.includes(role)) authorized = true;
         });
       }
     }

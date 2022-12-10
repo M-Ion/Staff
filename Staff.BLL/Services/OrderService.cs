@@ -3,6 +3,7 @@ using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Dtos.Order;
+using Staff.Common.Filtering;
 using Staff.DAL.Contracts;
 using Staff.Domain;
 using Staff.Domain.Dishes;
@@ -14,6 +15,7 @@ namespace Staff.BLL.Services
         readonly IOrderRepository _orderRepo;
         readonly INoteRepository _noteRepo;
         readonly IDishRepository _dishRepo;
+        readonly IHttpContextCurrentUser _user;
 
         public OrderService(
             IMapper mapper,
@@ -27,6 +29,7 @@ namespace Staff.BLL.Services
             _orderRepo = orderRepo;
             _noteRepo = noteRepo;
             _dishRepo = dishRepo;
+            _user = user;
         }
 
         public override async Task<BaseDto> Add(CreateOrderDto createDto)
@@ -53,6 +56,18 @@ namespace Staff.BLL.Services
             }
 
             throw new Exception();
+        }
+
+        public async Task<IList<GetOrderDto>> GetOrdersByDishType(DishTypes type)
+        {
+            Filter filter = new() { Prop = "dish.Category.DishType", Operation = Op.Eq, Value = type };
+            Filter prepared = new() { Prop = "isPrepared", Operation = Op.Eq, Value = false };
+
+            FilteredRequest filteredRequest = new() { Filters = new List<Filter>() { filter, prepared } };
+
+            IList<GetOrderDto> entities = (await _orderRepo.GetAllAsyncProcessed<GetOrderDto>(_user.CompanyId, filteredRequest, _mapper)).Items;
+
+            return entities;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Staff.DAL.Configs;
 using Staff.Domain;
 using Staff.Domain.Users;
 
@@ -11,8 +12,13 @@ namespace Staff.DAL
         {
         }
 
-        public DbSet<WorkerUser> Staff { get; set; }
-
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new OrderConfig());
+        }
     }
 }

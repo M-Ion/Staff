@@ -26,6 +26,20 @@ namespace Staff.API.Controllers
             return Ok(await _orderService.GetEvery());
         }
 
+        [HttpGet("Kitchen")]
+        [Authorize]
+        public async Task<ActionResult<IList<GetOrderDto>>> GetKitchen()
+        {
+            return Ok(await _orderService.GetOrdersByDishType(Domain.Dishes.DishTypes.Dish));
+        }
+
+        [HttpGet("Bar")]
+        [Authorize]
+        public async Task<ActionResult<IList<GetOrderDto>>> GetBar()
+        {
+            return Ok(await _orderService.GetOrdersByDishType(Domain.Dishes.DishTypes.Beverage));
+        }
+
         [HttpPost]
         [Authorize(Roles = "Waiter")]
         public async Task<ActionResult<BaseDto>> Post([FromBody] CreateOrderDto dto)
@@ -35,7 +49,7 @@ namespace Staff.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Waiter")]
+        [Authorize]
         public async Task<ActionResult> Put(string id, [FromBody] UpdateOrderDto dto)
         {
             await _orderService.Update(id, dto);
@@ -51,12 +65,5 @@ namespace Staff.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("Cook")]
-        [Authorize]
-        public async Task<ActionResult<FilteredResult<GetOrderDto>>> GetCookOrders([FromBody] IList<Filter> filters)
-        {
-            var result = await _orderService.Get(filters);
-            return Ok(result);
-        }
     }
 }

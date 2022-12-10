@@ -12,13 +12,5 @@ namespace Staff.DAL.Repositories
         {
             _context = context;
         }
-
-        public async Task<IList<Dish>> GetByCategory(string categoryId, string companyId)
-        {
-            return await _context.Set<Dish>().Where(
-                d => d.Category.Id.ToString() == categoryId &&
-                d.Company.Id.ToString() == companyId
-                ).ToListAsync();
-        }
     }
 }

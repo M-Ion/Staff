@@ -49,6 +49,11 @@ const Header = ({ headerSx }: Props) => {
       ) {
         setWorkspace("/waiter");
         return;
+      } else if (
+        currentUser.roles.find((r) => r === "Barkeep" || r === "Cook")
+      ) {
+        setWorkspace("/orders");
+        return;
       }
     }
   }, [currentUser]);
@@ -68,9 +73,11 @@ const Header = ({ headerSx }: Props) => {
             STAFF
           </Typography>
           <Box sx={{ ...growSx }}>
-            <Link to={workspace} style={{ textDecoration: "none" }}>
-              <Button sx={{ ...headerBtnSx }}>Workspace</Button>
-            </Link>
+            <OnlyAuth>
+              <Link to={workspace} style={{ textDecoration: "none" }}>
+                <Button sx={{ ...headerBtnSx }}>Workspace</Button>
+              </Link>
+            </OnlyAuth>
           </Box>
           <Box>
             <IconButton>
@@ -80,7 +87,7 @@ const Header = ({ headerSx }: Props) => {
                     <OnlyAuth roles={["Manager"]}>
                       <AdminPanelSettingsIcon />
                     </OnlyAuth>
-                    <OnlyAuth roles={["Waiter"]}>
+                    <OnlyAuth roles={["Waiter", "Barkeep", "Cook"]}>
                       <AccountCircleIcon />
                     </OnlyAuth>
                   </>

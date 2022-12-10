@@ -1,4 +1,4 @@
-﻿namespace MarvelCU.Common.Models.Processing;
+﻿namespace Staff.Common.Filtering;
 
 public enum Op
 {

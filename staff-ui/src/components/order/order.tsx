@@ -42,7 +42,7 @@ const NoteOrder = ({ last, noteId, order, orders }: Props) => {
   const handleRemove = (safe: string) => async () => {
     const id = orders.pop();
 
-    if (id) console.log(await deleteOrder({ id, passcode: { safe } }));
+    if (id) await deleteOrder({ id, passcode: { safe } });
   };
 
   return (

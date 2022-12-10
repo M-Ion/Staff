@@ -40,6 +40,13 @@ namespace Staff.API.Controllers
             return Ok(baseDto);
         }
 
+        [HttpPost("Filtered")]
+        [Authorize]
+        public async Task<ActionResult<IList<DishDto>>> GetFiltered([FromBody] IList<Filter> filters)
+        {
+            return Ok(await _dishService.Get(filters));
+        }
+
         [HttpPut("{id}")]
         [Authorize]
         public async Task<ActionResult> Put(string id, [FromBody] UpdateDishDto dto)

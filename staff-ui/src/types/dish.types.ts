@@ -9,6 +9,16 @@ export interface Dish extends BaseEntity {
   price: number;
 }
 
+export interface UpdateDish {
+  id: string;
+  body: {
+    category?: string;
+    isInStop?: boolean;
+    name?: string;
+    price?: number;
+  };
+}
+
 export interface CreateDish {
   category: string;
   name: string;

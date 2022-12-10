@@ -19,7 +19,7 @@ builder.Services.AddDbContext<StaffDbContext>(options =>
     options
         .UseLazyLoadingProxies()
         .UseSqlServer(builder.Configuration.GetConnectionString("StaffDbConn"))
-        .UseTriggers(options => options.AddTrigger<DeleteNoteTrigger>());
+        .UseTriggers(options => options.AddTrigger<DeleteNoteTrigger>().AddTrigger<CreateOrderTrigger>());
 });
 
 builder.Services
