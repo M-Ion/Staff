@@ -32,7 +32,7 @@ namespace Staff.DAL.Repositories
             }
             else
             {
-                items = await _context.Set<Order>().ToListAsync(); 
+                items = await _context.Set<Order>().ToListAsync();
             }
 
             Expression<Func<Order, object>> groupExp = BuildExpression(request.Prop);
@@ -74,6 +74,18 @@ namespace Staff.DAL.Repositories
             {
                 throw new Exception();
             }
+
+            return result;
+        }
+
+        public async Task<IList<Group>> GetGroupMonthlyData(string companyId, Filter filter)
+        {
+            FilteredRequest filteredRequest = new FilteredRequest() { Filters = new List<Filter>() { filter } };
+            IList<Order> items = (await GetAllAsyncProcessed(companyId, filteredRequest)).Items;
+
+            IList<Group> result = items.GroupBy(o => new { Year = o.Created.Year, Month = o.Created.Month }, 
+                (key, g) => new Group() { Key = (object)key, Count = (ulong)g.Count(), Sum = g.Sum(l => l.Dish.Price) })
+                .ToList();
 
             return result;
         }

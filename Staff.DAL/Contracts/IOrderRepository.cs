@@ -7,8 +7,10 @@ namespace Staff.DAL.Contracts
 {
     public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<IList<Group>> GetGroupData(string companyId, GroupRequest request)
+        Task<IList<Group>> GetGroupData(string companyId, GroupRequest request);
 
         Task<IList<Group>> GetGroupData<TDto>(string companyId, GroupRequest request);
+
+        Task<IList<Group>> GetGroupMonthlyData(string companyId, Filter filter);
     }
 }
