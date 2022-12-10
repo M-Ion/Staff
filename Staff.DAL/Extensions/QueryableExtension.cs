@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using MarvelCU.Common.Models.Processing;
 using Microsoft.EntityFrameworkCore;
 using Staff.Common.Filtering;
 using Staff.Domain;
@@ -77,33 +76,63 @@ namespace Staff.DAL.Extensions
 
         private static Expression GetExpression<T>(ParameterExpression param, Filter filter)
         {
-            MemberExpression member = Expression.Property(param, filter.Prop);
+            MemberExpression member = GetMemberExpression(param, filter.Prop);
+            object value = ConvertConstantValue(member, filter);
 
-            object value;
-
-            if (member.Type.IsEnum) value = Enum.ToObject(member.Type, filter.Value);
-            else value = Convert.ChangeType(filter.Value, member.Type);
-
+            Expression leftHand = member.Type == typeof(System.Guid) ? Expression.Call(member, "ToString", Type.EmptyTypes) : member;
             ConstantExpression constant = Expression.Constant(value);
 
             switch (filter?.Operation)
             {
                 case Op.Eq:
-                    return Expression.Equal(member, constant);
+                    return Expression.Equal(leftHand, constant);
                 case Op.Gt:
-                    return Expression.GreaterThan(member, constant);
+                    return Expression.GreaterThan(leftHand, constant);
                 case Op.GtEq:
-                    return Expression.GreaterThanOrEqual(member, constant);
+                    return Expression.GreaterThanOrEqual(leftHand, constant);
                 case Op.Lt:
-                    return Expression.LessThan(member, constant);
+                    return Expression.LessThan(leftHand, constant);
                 case Op.LtEq:
-                    return Expression.LessThanOrEqual(member, constant);
+                    return Expression.LessThanOrEqual(leftHand, constant);
                 case Op.Ct:
                     MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-                    return Expression.Call(member, method, constant);
+                    return Expression.Call(leftHand, method, constant);
                 default:
                     return null;
             }
+        }
+
+        private static MemberExpression GetMemberExpression(ParameterExpression param, string prop)
+        {
+            string[] props = prop.Split('.');
+            MemberExpression member = Expression.Property(param, props[0]);
+
+            for (int i = 1; i < props.Length; i++)
+            {
+                member = Expression.Property(member, props[i]);
+            }
+
+            return member;
+        }
+
+        private static object ConvertConstantValue(MemberExpression member, Filter filter)
+        {
+            object value;
+
+            if (member.Type.IsEnum)
+            {
+                value = Enum.ToObject(member.Type, filter.Value);
+            }
+            else if (member.Type == typeof(System.Guid))
+            {
+                value = filter.Value;
+            }
+            else
+            {
+                value = Convert.ChangeType(filter.Value, member.Type);
+            }
+
+            return value;
         }
     }
 }
