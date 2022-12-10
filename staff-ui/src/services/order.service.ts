@@ -1,5 +1,5 @@
 import { Safe } from "../types/company.types";
-import { CreateOrder, Order, UpdateOrder } from "../types/order.types";
+import { CreateOrder, Order } from "../types/order.types";
 import apiService from "./api.service";
 
 const controller: string = "Order";
@@ -11,6 +11,8 @@ const orderService = apiService.injectEndpoints({
         url: `/${controller}/Kitchen`,
         method: "GET",
       }),
+
+      providesTags: ["Orders"],
     }),
 
     fetchBarOrders: build.query<Order[], void>({
@@ -18,6 +20,8 @@ const orderService = apiService.injectEndpoints({
         url: `/${controller}/Bar`,
         method: "GET",
       }),
+
+      providesTags: ["Orders"],
     }),
 
     postOrder: build.mutation<void, CreateOrder>({
@@ -38,6 +42,8 @@ const orderService = apiService.injectEndpoints({
           isPrepared: true,
         },
       }),
+
+      invalidatesTags: ["Orders"],
     }),
 
     deleteOrder: build.mutation<void, { id: string; passcode: Safe }>({

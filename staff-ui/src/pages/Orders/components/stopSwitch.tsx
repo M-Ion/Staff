@@ -1,7 +1,7 @@
 import { Switch } from "@mui/material";
 import React from "react";
-import dishService from "../../services/dish.service";
-import { Dish } from "../../types/dish.types";
+import dishService from "../../../services/dish.service";
+import { Dish } from "../../../types/dish.types";
 
 type Props = {
   dish: Dish;

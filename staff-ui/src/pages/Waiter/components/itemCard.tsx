@@ -26,7 +26,12 @@ const ItemCard = ({ item }: Props) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 250 }}>
+    <Card
+      sx={{
+        maxWidth: 250,
+        border: `${item.isInStop ? "1px solid red" : "none"}`,
+      }}
+    >
       <CardMedia
         component="img"
         alt="green iguana"
@@ -46,7 +51,7 @@ const ItemCard = ({ item }: Props) => {
         <Button
           size="small"
           onClick={handlePost}
-          disabled={!Boolean(expandedNote)}
+          disabled={!Boolean(expandedNote) || item.isInStop}
         >
           <AddIcon />
         </Button>

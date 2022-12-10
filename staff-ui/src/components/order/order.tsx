@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Chip,
   Divider,
   IconButton,
   ListItem,
@@ -55,13 +56,22 @@ const NoteOrder = ({ last, noteId, order, orders }: Props) => {
         </ListItemAvatar>
         <ListItemText primary={fullName} secondary={details} />
 
-        <IconButton sx={{ ...alignCenterSx }} onClick={handleOpen}>
-          <RemoveIcon />
-        </IconButton>
+        {!order.isPrepared && (
+          <IconButton sx={{ ...alignCenterSx }} onClick={handleOpen}>
+            <RemoveIcon />
+          </IconButton>
+        )}
+
         {order.quantity}
-        <IconButton sx={{ ...alignCenterSx }} onClick={handlePost}>
-          <AddIcon />
-        </IconButton>
+        {order.isPrepared && (
+          <Chip label="Prepared" color="success" sx={{ ml: 1 }} />
+        )}
+
+        {!order.isPrepared && (
+          <IconButton sx={{ ...alignCenterSx }} onClick={handlePost}>
+            <AddIcon />
+          </IconButton>
+        )}
       </ListItem>
 
       <DialogSafe execute={handleRemove} openState={[open, setOpen]} />

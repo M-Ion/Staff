@@ -2,8 +2,8 @@ import { Avatar } from "@mui/material";
 import { Category } from "../../types/category.types";
 import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { Order } from "../../types/order.types";
-import FinishBtn from "./finishBtn";
-import StopSwitch from "./stopSwitch";
+import FinishBtn from "./components/finishBtn";
+import StopSwitch from "./components/stopSwitch";
 import { Dish } from "../../types/dish.types";
 
 export const ordersColumns: GridColDef[] = [
@@ -53,7 +53,7 @@ export const ordersColumns: GridColDef[] = [
     disableReorder: true,
     renderCell: (params) => {
       const order = params.row as Order;
-      return <FinishBtn orderId={order.id} />;
+      return <FinishBtn order={order} />;
     },
   },
 ];

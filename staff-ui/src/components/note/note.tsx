@@ -34,6 +34,7 @@ type Props = {
 
 const PaymentNote = ({ expandedState, note }: Props) => {
   const dispatch = useDispatch();
+
   const [open, setOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = expandedState;
 

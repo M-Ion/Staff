@@ -8,16 +8,19 @@ export const groupOrders = (arr: Order[]) => {
   let groupedOrder: Order[] = [];
 
   arr.forEach((order) => {
-    const index = groupedOrder.findIndex((o) => o.dish.id === order.dish.id);
+    const index = groupedOrder.findIndex(
+      (o) => o.dish.id === order.dish.id && o.isPrepared === order.isPrepared
+    );
 
     if (index > -1) {
-      if (groupedOrder[index].isPrepared === order.isPrepared) {
-        groupedOrder[index].quantity += order.quantity;
-      }
+      groupedOrder[index].quantity += order.quantity;
     } else {
       groupedOrder.push({ ...order });
     }
   });
 
-  return groupedOrder;
+  return groupedOrder.sort((a, b) => {
+    if (!a.isPrepared) return -1;
+    else return 1;
+  });
 };
