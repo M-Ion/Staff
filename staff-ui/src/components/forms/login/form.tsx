@@ -9,15 +9,15 @@ import { Login } from "../../../types/auth.types";
 import FormField from "../../commons/formField";
 import loginSchema from "./validation";
 
-// const initialValues: Login = {
-//   email: "managerPaul@manager.com",
-//   password: "P@sswordPaul1",
-// };
-
 const initialValues: Login = {
-  email: "managerNorma3@manager.com",
-  password: "P@ssword1",
+  email: "managerPaul@manager.com",
+  password: "P@sswordPaul1",
 };
+
+// const initialValues: Login = {
+//   email: "managerNorma3@manager.com",
+//   password: "P@ssword1",
+// };
 
 const LoginForm = () => {
   const dispatch = useDispatch();

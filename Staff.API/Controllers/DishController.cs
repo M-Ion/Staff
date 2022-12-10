@@ -4,6 +4,8 @@ using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Filtering;
+using Staff.DAL;
+using Staff.DAL.Contracts;
 
 namespace Staff.API.Controllers
 {
@@ -12,10 +14,12 @@ namespace Staff.API.Controllers
     public class DishController : ControllerBase
     {
         readonly IDishService _dishService;
+        readonly IDishRepository _repo;
 
-        public DishController(IDishService dishService)
+        public DishController(IDishService dishService, IDishRepository repo)
         {
             _dishService = dishService;
+            _repo = repo;
         }
 
         [HttpGet]

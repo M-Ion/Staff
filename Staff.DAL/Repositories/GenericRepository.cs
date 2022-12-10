@@ -54,6 +54,11 @@ namespace Staff.DAL.Repositories
             return await _context.Set<T>().Where(e => e.Company.Id.ToString() == companyId).Query<T, TDto>(filteredRequest, mapper);
         }
 
+        public async Task<FilteredResult<T>> GetAllAsyncProcessed(string companyId, FilteredRequest filteredRequest)
+        {
+            return await _context.Set<T>().Where(e => e.Company.Id.ToString() == companyId).Query<T>(filteredRequest);
+        }
+
         public async Task<IList<T>> GetEvery(string companyId)
         {
             IQueryable<T> query = _context.Set<T>().Where(e => e.Company.Id.ToString() == companyId);

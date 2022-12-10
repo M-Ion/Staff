@@ -25,6 +25,21 @@ namespace Staff.DAL.Extensions
             return result;
         }
 
+        public async static Task<FilteredResult<T>> Query<T>(this IQueryable<T> query, FilteredRequest filteredRequest) where T : BaseEntity
+        {
+            query = query.ApplyFilters(filteredRequest.Filters);
+
+            int total = await query.CountAsync();
+
+            FilteredResult<T> result = new()
+            {
+                Total = total,
+                Items = await query.ToListAsync()
+            };
+
+            return result;
+        }
+
         public static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, IList<Filter> filters)
         {
             if (!filters.Any())

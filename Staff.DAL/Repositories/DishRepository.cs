@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Staff.DAL.Contracts;
+using Staff.Domain;
 using Staff.Domain.Dishes;
 
 namespace Staff.DAL.Repositories
