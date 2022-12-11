@@ -2,6 +2,7 @@
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Filtering;
+using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
 using Staff.Domain;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Staff.BLL.Services
 {
-    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : IGenericService<TEntity, T, TGet, TCreate, TUpdate>
+    public class GenericService<TEntity, T, TGet, TCreate, TUpdate> : StatsService<TGet>, IGenericService<TEntity, T, TGet, TCreate, TUpdate>
         where TEntity : BaseEntity
         where T : class
         where TGet : class
@@ -22,13 +23,20 @@ namespace Staff.BLL.Services
         protected readonly IMapper _mapper;
 
         readonly IGenericRepository<TEntity> _repo;
+        readonly IOrderRepository _orderRepo;
         protected readonly IHttpContextCurrentUser _user;
 
-        public GenericService(IMapper mapper, IGenericRepository<TEntity> repo, IHttpContextCurrentUser user)
+        public GenericService(
+            IMapper mapper,
+            IGenericRepository<TEntity> repo,
+            IHttpContextCurrentUser user,
+            IOrderRepository orderRepo
+            ) : base(user, orderRepo)
         {
             _mapper = mapper;
             _repo = repo;
             _user = user;
+            _orderRepo = orderRepo;
         }
 
         public virtual async Task<BaseDto> Add(TCreate createDto)

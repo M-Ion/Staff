@@ -4,6 +4,7 @@ using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Filtering;
+using Staff.Common.Grouping;
 using Staff.DAL;
 using Staff.DAL.Contracts;
 
@@ -34,6 +35,20 @@ namespace Staff.API.Controllers
         public async Task<ActionResult<FilteredResult<DishDto>>> GetFiltered([FromQuery] string category)
         {
             return Ok(await _dishService.GetByCategory(category));
+        }
+
+        [HttpGet("Statistics/{id}")]
+        [Authorize]
+        public async Task<ActionResult<IList<Group>>> GetDishStatistics(string id, [FromQuery] GroupStatsBy by)
+        {
+            return Ok(await _dishService.GetStatsByDish(id, by));
+        }
+
+        [HttpGet("Statistics")]
+        [Authorize]
+        public async Task<ActionResult<IList<Group>>> GetStatistics()
+        {
+            return Ok(await _dishService.GetDishesStats());
         }
 
         [HttpPost]

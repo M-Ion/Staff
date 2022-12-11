@@ -3,6 +3,7 @@ using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Filtering;
+using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
 using Staff.Domain.Dishes;
 
@@ -18,8 +19,9 @@ namespace Staff.BLL.Services
             IGenericRepository<Dish> repo,
             IHttpContextCurrentUser user,
             IDishRepository dishRepo,
+            IOrderRepository orderRepo,
             ICategoryRepository categoryRepo
-            ) : base(mapper, repo, user)
+            ) : base(mapper, repo, user, orderRepo)
         {
             _dishRepo = dishRepo;
             _categoryRepo = categoryRepo;
@@ -96,6 +98,16 @@ namespace Staff.BLL.Services
 
                 await _dishRepo.Update(entity);
             }
+        }
+
+        public async Task<IList<Group>> GetDishesStats()
+        {
+            return await GetStats("dish");
+        }
+
+        public async Task<IList<Group>> GetStatsByDish(string id, GroupStatsBy by = GroupStatsBy.Year)
+        {
+            return await GetSpecificStats(id, "dish.Id", by);
         }
 
         private async Task<Category> ExistsCategory(string id)

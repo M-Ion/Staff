@@ -17,8 +17,9 @@ namespace Staff.BLL.Services
             IMapper mapper,
             IGenericRepository<Note> repo,
             IHttpContextCurrentUser user,
-            INoteRepository noteRepo
-            ) : base(mapper, repo, user)
+            INoteRepository noteRepo,
+            IOrderRepository orderRepo
+            ) : base(mapper, repo, user, orderRepo)
         {
             _noteRepo = noteRepo;
         }

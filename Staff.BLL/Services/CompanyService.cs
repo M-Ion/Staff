@@ -2,17 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos.AppUser;
+using Staff.Common.Grouping;
+using Staff.DAL.Contracts;
 using Staff.Domain.Users;
 
 namespace Staff.BLL.Services
 {
-    public class CompanyService : ICompanyService
+    public class CompanyService : StatsService<GetAppUserDto>, ICompanyService
     {
         readonly IHttpContextCurrentUser _currentUser;
         readonly UserManager<AppUser> _userManager;
         readonly IMapper _mapper;
 
-        public CompanyService(IHttpContextCurrentUser currentUser, UserManager<AppUser> userManager, IMapper mapper)
+        public CompanyService(IHttpContextCurrentUser currentUser, UserManager<AppUser> userManager, IMapper mapper, IOrderRepository orderRepo) : base(currentUser, orderRepo)
         {
             _currentUser = currentUser;
             _userManager = userManager;
@@ -37,6 +39,16 @@ namespace Staff.BLL.Services
             }
 
             return workersDto;
+        }
+
+        public async Task<IList<Group>> GetWorkersStats()
+        {
+            return await GetStats("user");
+        }
+
+        public async Task<IList<Group>> GetStatsByWorker(string id, GroupStatsBy by = GroupStatsBy.Year)
+        {
+            return await GetSpecificStats(id, "user.Id", by);
         }
     }
 }

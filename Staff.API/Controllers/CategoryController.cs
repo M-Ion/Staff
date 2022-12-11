@@ -5,6 +5,7 @@ using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Category;
 using Staff.Common.Filtering;
+using Staff.Common.Grouping;
 
 namespace Staff.API.Controllers
 {
@@ -24,6 +25,20 @@ namespace Staff.API.Controllers
         public async Task<ActionResult<IList<CategoryDto>>> Get()
         {
             return Ok(await _categoryService.GetEvery());
+        }
+
+        [HttpGet("Statistics/{id}")]
+        [Authorize]
+        public async Task<ActionResult<IList<Group>>> GetSpecificStatistics(string id, [FromQuery] GroupStatsBy by)
+        {
+            return Ok(await _categoryService.GetStatsByCategory(id, by));
+        }
+
+        [HttpGet("Statistics")]
+        [Authorize]
+        public async Task<ActionResult<IList<Group>>> GetStatistics()
+        {
+            return Ok(await _categoryService.GetCategoriesStats());
         }
 
         [HttpPost("Filtered")]

@@ -17,7 +17,6 @@ namespace Staff.BLL.Services
         readonly IOrderRepository _orderRepo;
         readonly INoteRepository _noteRepo;
         readonly IDishRepository _dishRepo;
-        readonly IHttpContextCurrentUser _user;
 
         public OrderService(
             IMapper mapper,
@@ -26,12 +25,11 @@ namespace Staff.BLL.Services
             IOrderRepository orderRepo,
             INoteRepository noteRepo,
             IDishRepository dishRepo
-            ) : base(mapper, repo, user)
+            ) : base(mapper, repo, user, orderRepo)
         {
             _orderRepo = orderRepo;
             _noteRepo = noteRepo;
             _dishRepo = dishRepo;
-            _user = user;
         }
 
         public override async Task<BaseDto> Add(CreateOrderDto createDto)
@@ -71,5 +69,6 @@ namespace Staff.BLL.Services
 
             return entities;
         }
+
     }
 }
