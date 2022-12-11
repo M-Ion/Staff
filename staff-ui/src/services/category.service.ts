@@ -1,6 +1,7 @@
 import { Category, CreateCategory } from "../types/category.types";
 import { ReqFilter } from "../types/request.types";
 import { FilteredResp } from "../types/response.types";
+import { GeneralStats, SpecificStats } from "../types/statisitcs.types";
 import apiService from "./api.service";
 
 const controller: string = "Category";
@@ -21,6 +22,24 @@ const categoryService = apiService.injectEndpoints({
         url: `/${controller}/Filtered`,
         body: arg,
         method: "POST",
+      }),
+    }),
+
+    fetchGeneralStats: build.query<GeneralStats<Category>[], void>({
+      query: (arg) => ({
+        url: `/${controller}/Statistics`,
+        method: "GET",
+      }),
+    }),
+
+    fetchSpecificStats: build.mutation<
+      SpecificStats[],
+      { id: string; by: "Year" | "Month" }
+    >({
+      query: (arg) => ({
+        url: `/${controller}/Statistics/${arg.id}`,
+        method: "GET",
+        params: { by: arg.by },
       }),
     }),
 
