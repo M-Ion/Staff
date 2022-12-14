@@ -41,6 +41,13 @@ namespace Staff.API.Controllers
             return Ok(await _orderService.GetOrdersByDishType(Domain.Dishes.DishTypes.Beverage));
         }
 
+        [HttpGet("Statistics")]
+        [Authorize]
+        public async Task<ActionResult<IList<Group>>> GetStats([FromQuery] GroupStatsBy by)
+        {
+            return Ok(await _orderService.GetStats(by));
+        }
+
         [HttpPost]
         [Authorize(Roles = "Waiter")]
         public async Task<ActionResult<BaseDto>> Post([FromBody] CreateOrderDto dto)

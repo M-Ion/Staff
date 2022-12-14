@@ -1,3 +1,4 @@
+import { GeneralStats, SpecificStats } from "../types/statisitcs.types";
 import { WorkerUser } from "../types/user.types";
 import apiService from "./api.service";
 
@@ -8,6 +9,24 @@ const companyService = apiService.injectEndpoints({
     fetchWorkers: build.query<WorkerUser[], void>({
       query: () => ({
         url: `/${controller}/Workers`,
+      }),
+    }),
+
+    fetchGeneralWorkersStats: build.query<GeneralStats<WorkerUser>[], void>({
+      query: (arg) => ({
+        url: `/${controller}/Workers/Statistics`,
+        method: "GET",
+      }),
+    }),
+
+    fetchSpecificWorkersStats: build.mutation<
+      SpecificStats[],
+      { id: string; by: "Year" | "Month" }
+    >({
+      query: (arg) => ({
+        url: `/${controller}/Workers/Statistics/${arg.id}`,
+        method: "GET",
+        params: { by: arg.by },
       }),
     }),
   }),

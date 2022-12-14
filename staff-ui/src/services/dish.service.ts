@@ -2,6 +2,7 @@ import { BaseEntity } from "../types/base.types";
 import { CreateDish, Dish, UpdateDish } from "../types/dish.types";
 import { ReqFilter } from "../types/request.types";
 import { FilteredResp } from "../types/response.types";
+import { GeneralStats, SpecificStats } from "../types/statisitcs.types";
 import apiService from "./api.service";
 
 const controller: string = "Dish";
@@ -26,6 +27,24 @@ const dishService = apiService.injectEndpoints({
         url: `/${controller}/Filtered`,
         method: "POST",
         body: arg,
+      }),
+    }),
+
+    fetchGeneralDishStats: build.query<GeneralStats<Dish>[], void>({
+      query: (arg) => ({
+        url: `/${controller}/Statistics`,
+        method: "GET",
+      }),
+    }),
+
+    fetchSpecificDishStats: build.mutation<
+      SpecificStats[],
+      { id: string; by: "Year" | "Month" }
+    >({
+      query: (arg) => ({
+        url: `/${controller}/Statistics/${arg.id}`,
+        method: "GET",
+        params: { by: arg.by },
       }),
     }),
 

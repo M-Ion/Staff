@@ -9,5 +9,7 @@ namespace Staff.BLL.Contracts
     public interface IOrderService : IGenericService<Order, GetOrderDto, GetOrderDto, CreateOrderDto, UpdateOrderDto>
     {
         Task<IList<GetOrderDto>> GetOrdersByDishType(DishTypes type);
+
+        Task<IList<Group>> GetStats(GroupStatsBy by = GroupStatsBy.Year);
     }
 }

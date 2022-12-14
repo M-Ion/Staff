@@ -11,6 +11,9 @@ import dishService from "../services/dish.service";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import React, { useState } from "react";
 import DeleteBtn from "../components/commons/deleteBtn";
+import { Dish } from "../types/dish.types";
+import Chart from "../components/chart";
+import useStats from "../hooks/useStats.hook";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 300 },
@@ -73,12 +76,24 @@ const DishesPage = () => {
 
   const handleOpen = () => setOpen(true);
 
+  const {
+    data: stats,
+    byState: [by, setBy],
+    selectState: [selected, setSelected],
+    statsById,
+    handleSelectRow,
+  } = useStats<Dish>(
+    dishService.useFetchGeneralDishStatsQuery,
+    dishService.useFetchSpecificDishStatsMutation
+  );
+
   return (
     <>
       <Box sx={{ ...workersTableSx }}>
         {data && (
           <DataGrid
             disableSelectionOnClick
+            onRowClick={handleSelectRow}
             rows={data}
             columns={columns}
             pageSize={5}
@@ -86,6 +101,20 @@ const DishesPage = () => {
           />
         )}
       </Box>
+
+      <Box sx={{ ...workersTableSx }}>
+        {stats && (
+          <Chart<Dish>
+            byState={[by, setBy]}
+            data={stats}
+            dataKey={"key.name"}
+            entityDataKey={`key.${by?.toLocaleLowerCase()}`}
+            entityStats={statsById}
+            selectState={[selected, setSelected]}
+          />
+        )}
+      </Box>
+
       <Fab color="primary" onClick={handleOpen} sx={stickyFabSx}>
         <AddIcon />
       </Fab>

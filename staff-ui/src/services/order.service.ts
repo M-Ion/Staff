@@ -1,5 +1,6 @@
 import { Safe } from "../types/company.types";
 import { CreateOrder, Order } from "../types/order.types";
+import { SpecificStats } from "../types/statisitcs.types";
 import apiService from "./api.service";
 
 const controller: string = "Order";
@@ -22,6 +23,14 @@ const orderService = apiService.injectEndpoints({
       }),
 
       providesTags: ["Orders"],
+    }),
+
+    fetchOrdersStats: build.query<SpecificStats[], "Year" | "Month">({
+      query: (arg) => ({
+        url: `/${controller}/Statistics`,
+        method: "GET",
+        params: { by: arg },
+      }),
     }),
 
     postOrder: build.mutation<void, CreateOrder>({

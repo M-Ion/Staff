@@ -18,6 +18,7 @@ import CategoriesPage from "./pages/Categories";
 import DishesPage from "./pages/Dishes";
 import WaiterPage from "./pages/Waiter";
 import OrdersPage from "./pages/Orders";
+import StatisticsPage from "./pages/Statistics";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,10 +54,7 @@ function App() {
           />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="menu" element={<DishesPage />} />
-          <Route
-            path="statistics"
-            element={<div className="stats">Statistics</div>}
-          />
+          <Route path="statistics" element={<StatisticsPage />} />
           <Route path="workers" element={<WorkersPage />} />
         </Route>
         <Route path="/orders" element={<OrdersPage />} />

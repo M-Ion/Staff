@@ -70,5 +70,15 @@ namespace Staff.BLL.Services
             return entities;
         }
 
+        public async Task<IList<Group>> GetStats(GroupStatsBy by = GroupStatsBy.Year)
+        {
+            if (by == GroupStatsBy.Year)
+            {
+                GroupRequest request = new() { Prop = "created.Year", Filter = null };
+                return await _orderRepo.GetGroupData(_user.CompanyId, request);
+            }
+
+            return await _orderRepo.GetGroupMonthlyData(_user.CompanyId, null);
+        }
     }
 }
