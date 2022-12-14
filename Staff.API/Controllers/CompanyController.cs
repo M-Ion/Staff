@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos.AppUser;
+using Staff.Common.Dtos.Company;
 using Staff.Common.Grouping;
 
 namespace Staff.API.Controllers
@@ -17,9 +18,24 @@ namespace Staff.API.Controllers
             _companyService = companyService;
         }
 
+        [HttpGet()]
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult<CompanyDto>> Get()
+        {
+            return Ok(await _companyService.Get());
+        }
+
+        [HttpPut()]
+        [Authorize(Roles = "Manager")]
+        public async Task<ActionResult> Update([FromBody] UpdateCompanyDto updateDto)
+        {
+            await _companyService.Update(updateDto);
+            return NoContent();
+        }
+
         [HttpGet("Workers")]
         [Authorize(Roles = "Manager")]
-        public async Task<ActionResult<IList<GetAppUserDto>>> Get()
+        public async Task<ActionResult<IList<GetAppUserDto>>> GetWorkers()
         {
             return Ok(await _companyService.GetWorkers());
         }

@@ -26,6 +26,8 @@ namespace Staff.Common.Configs
             CreateMap<WorkerUser, GetWorkerUserDto>().ReverseMap();
 
             CreateMap<Company, GetCompanyDto>().ReverseMap();
+            CreateMap<Company, CompanyDto>().ReverseMap();
+            CreateMap<Company, UpdateCompanyDto>().ReverseMap().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Note, CreateNoteDto>().ReverseMap();
             CreateMap<Note, GetNoteDto>().ReverseMap();

@@ -11,3 +11,8 @@ export interface Company extends GetCompany {
 export interface Safe {
   safe: string;
 }
+
+export interface UpdateCompany {
+  safe?: string;
+  name?: string;
+}

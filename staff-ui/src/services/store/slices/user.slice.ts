@@ -27,7 +27,8 @@ const userSlice = createSlice({
     },
 
     setInitial: (state: UserState) => {
-      state = initialState;
+      state.currentUser = initialState.currentUser;
+      state.token = initialState.token;
     },
   },
 });

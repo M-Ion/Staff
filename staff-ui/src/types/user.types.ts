@@ -6,6 +6,7 @@ export interface BaseUser {
   id: string;
   fullName: string;
   roles: string[];
+  email: string;
 }
 
 export interface AppUser extends BaseUser {

@@ -50,6 +50,14 @@ const authService = apiService
           method: "POST",
         }),
       }),
+
+      logout: build.mutation<void, void>({
+        query: (arg) => ({
+          url: `${controller}/Logout`,
+          body: arg,
+          method: "POST",
+        }),
+      }),
     }),
   });
 

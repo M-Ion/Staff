@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos.AppUser;
+using Staff.Common.Dtos.Company;
 using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
+using Staff.Domain;
 using Staff.Domain.Users;
 
 namespace Staff.BLL.Services
@@ -12,13 +14,35 @@ namespace Staff.BLL.Services
     {
         readonly IHttpContextCurrentUser _currentUser;
         readonly UserManager<AppUser> _userManager;
+        readonly ICompanyRepository _companyRepository;
         readonly IMapper _mapper;
 
-        public CompanyService(IHttpContextCurrentUser currentUser, UserManager<AppUser> userManager, IMapper mapper, IOrderRepository orderRepo) : base(currentUser, orderRepo)
+        public CompanyService(
+            IHttpContextCurrentUser currentUser,
+            UserManager<AppUser> userManager,
+            IMapper mapper,
+            IOrderRepository orderRepo,
+            ICompanyRepository companyRepository
+            ) : base(currentUser, orderRepo)
         {
             _currentUser = currentUser;
             _userManager = userManager;
             _mapper = mapper;
+            _companyRepository = companyRepository;
+        }
+
+        public async Task<CompanyDto> Get()
+        {
+            Company entity = await _companyRepository.Get(_currentUser.CompanyId);
+            return _mapper.Map<CompanyDto>(entity);
+        }
+
+        public async Task Update(UpdateCompanyDto updateDto)
+        {
+            Company entity = await _companyRepository.Get(_currentUser.CompanyId);
+            _mapper.Map(updateDto, entity);
+
+            await _companyRepository.Update(entity);
         }
 
         public async Task<IList<GetAppUserDto>> GetWorkers()

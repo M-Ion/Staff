@@ -26,5 +26,12 @@ namespace Staff.DAL.Repositories
 
             return entity;
         }
+
+        public async Task Update(Company entity)
+        {
+            _context.Update(entity);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

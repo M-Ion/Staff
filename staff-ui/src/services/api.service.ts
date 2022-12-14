@@ -4,7 +4,7 @@ import { baseQuery } from "./authBaseQuery";
 const apiService = createApi({
   reducerPath: "api/service",
   baseQuery: baseQuery(),
-  tagTypes: ["Note", "Orders"],
+  tagTypes: ["Note", "Orders", "Company"],
   endpoints: (build) => ({}),
 });
 
