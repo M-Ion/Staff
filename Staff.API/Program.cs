@@ -102,6 +102,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseGlobalErrorHandling();
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowLocalhost");
@@ -112,7 +114,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseDbTransaction();
-
-app.UseGlobalErrorHandling();
 
 app.Run();

@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { baseQuery } from "./authBaseQuery";
+import { baseQueryWithSession } from "./authBaseQuery";
 
 const controller = "Blob";
 
 const blobService = createApi({
   reducerPath: "blob/service",
-  baseQuery: baseQuery(""),
+  baseQuery: baseQueryWithSession(""),
   endpoints: (build) => ({
     uploadDishBlob: build.mutation<void, FormData>({
       query: (arg) => ({

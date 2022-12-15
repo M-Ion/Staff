@@ -7,3 +7,13 @@ export enum ErrorStatus {
   InvalidToken = "InvalidToken",
   NotFound = "NotFound",
 }
+
+export interface CustomError {
+  Message: string;
+  Status: ErrorStatus;
+  StatusCode: number;
+}
+
+export interface HandledError {
+  data: CustomError;
+}

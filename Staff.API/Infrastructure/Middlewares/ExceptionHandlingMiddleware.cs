@@ -38,6 +38,10 @@ namespace Staff.API.Infrastructure.Middlewares
                 Message = ex.Message
             };
 
+#if RELEASE
+            errDetails.Message = "Something goes wrong, please try again later";
+#endif
+
             switch (ex)
             {
                 case FormatException:
