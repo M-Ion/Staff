@@ -6,7 +6,7 @@ import { workersTableSx } from "./styles";
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DialogContainer from "../components/commons/dialogContainer";
-import DishForm from "../components/forms/dish";
+import { DishAddForm, DishUpdateForm } from "../components/forms/dish/form";
 import dishService from "../services/dish.service";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import React, { useState } from "react";
@@ -14,6 +14,7 @@ import DeleteBtn from "../components/commons/deleteBtn";
 import { Dish } from "../types/dish.types";
 import Chart from "../components/chart";
 import useStats from "../hooks/useStats.hook";
+import UpdateBtn from "../components/commons/updateBtn";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 300 },
@@ -66,6 +67,21 @@ const columns: GridColDef[] = [
     renderCell: (params) => {
       const { id, name } = params.row;
       return <Delete id={id} name={name} />;
+    },
+  },
+  {
+    field: "update",
+    headerName: "Update",
+    width: 80,
+    disableColumnMenu: true,
+    disableReorder: true,
+    renderCell: (params) => {
+      const dish = params.row as Dish;
+      return (
+        <UpdateBtn>
+          <DishUpdateForm dish={dish} />
+        </UpdateBtn>
+      );
     },
   },
 ];
@@ -122,7 +138,7 @@ const DishesPage = () => {
         icon={<FastfoodIcon color="primary" />}
         openState={[open, setOpen]}
       >
-        <DishForm />
+        <DishAddForm />
       </DialogContainer>
     </>
   );

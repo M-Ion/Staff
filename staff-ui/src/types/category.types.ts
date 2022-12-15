@@ -15,3 +15,8 @@ export interface CreateCategory {
   name: string;
   dishType: DishType;
 }
+
+export interface UpdateCategory {
+  id: string;
+  body: CreateCategory;
+}

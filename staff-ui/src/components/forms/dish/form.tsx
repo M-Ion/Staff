@@ -1,41 +1,66 @@
 import { btnSubmitSx, selectSx, uploaderGridSx } from "../../../assets/styles";
-import { CreateDish } from "../../../types/dish.types";
+import { CreateDish, Dish } from "../../../types/dish.types";
 import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import categoryService from "../../../services/category.service";
 import dishSchema from "./validation";
 import FormField from "../../commons/formField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dishService from "../../../services/dish.service";
 import FileUploader from "../../commons/fileUploader";
 import blobService from "../../../services/blob.service";
 import { prepareFileFormData } from "../../../utils/formData.utils";
 
-const initialValues: CreateDish = {
-  category: "",
-  name: "",
-  price: 1,
+type Props = {
+  updateForm?: boolean;
+  dish?: Dish;
 };
 
-type Props = {};
-
-const DishForm = (props: Props) => {
+const DishForm = ({ updateForm, dish }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [upload, { isLoading: isUploading }] =
     blobService.useUploadDishBlobMutation();
 
+  const initialValues: CreateDish = {
+    category: "",
+    name: "",
+    price: 1,
+  };
+
+  useEffect(() => {
+    if (updateForm && dish) {
+      initialValues.category = dish.category.id;
+      initialValues.name = dish.name;
+      initialValues.price = dish.price;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateForm, dish]);
+
   const [post, { isLoading }] = dishService.usePostDishMutation();
+  const [update, { isLoading: isUpdating }] =
+    dishService.useUpdateDishMutation();
   const { data: categories } = categoryService.useFetchCategoriesQuery();
 
   const handleSubmit = async (
     values: CreateDish,
     { resetForm }: FormikHelpers<CreateDish>
   ) => {
-    const response = await post(values).unwrap();
+    let identity: string;
+
+    if (updateForm && dish) {
+      await update({
+        id: dish.id,
+        body: { ...values, isInStop: dish.isInStop },
+      });
+      identity = dish.id;
+    } else {
+      const response = await post(values).unwrap();
+      identity = response.id;
+    }
 
     if (file) {
-      const formData = prepareFileFormData(file, response.id);
+      const formData = prepareFileFormData(file, identity);
       await upload(formData);
     }
 
@@ -89,16 +114,24 @@ const DishForm = (props: Props) => {
       </Grid>
 
       <LoadingButton
-        loading={isLoading || isUploading}
+        loading={(!updateForm ? isLoading : isUpdating) || isUploading}
         type="submit"
         variant="contained"
         fullWidth
         sx={{ ...btnSubmitSx }}
       >
-        Add
+        {!updateForm ? "Add" : "Update"}
       </LoadingButton>
     </form>
   );
 };
 
-export default DishForm;
+export const DishAddForm = () => <DishForm />;
+
+type UpdateProps = {
+  dish: Dish;
+};
+
+export const DishUpdateForm = ({ dish }: UpdateProps) => (
+  <DishForm updateForm={true} dish={dish} />
+);

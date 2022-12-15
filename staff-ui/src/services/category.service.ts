@@ -1,4 +1,8 @@
-import { Category, CreateCategory } from "../types/category.types";
+import {
+  Category,
+  CreateCategory,
+  UpdateCategory,
+} from "../types/category.types";
 import { ReqFilter } from "../types/request.types";
 import { FilteredResp } from "../types/response.types";
 import { GeneralStats, SpecificStats } from "../types/statisitcs.types";
@@ -48,6 +52,14 @@ const categoryService = apiService.injectEndpoints({
         url: `/${controller}`,
         method: "POST",
         body: arg,
+      }),
+    }),
+
+    updateCategory: build.mutation<void, UpdateCategory>({
+      query: (arg) => ({
+        url: `/${controller}/${arg.id}`,
+        method: "PUT",
+        body: arg.body,
       }),
     }),
 

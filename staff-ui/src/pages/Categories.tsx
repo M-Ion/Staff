@@ -3,7 +3,10 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { stickyFabSx } from "../assets/styles";
 import { workersTableSx } from "./styles";
 import AddIcon from "@mui/icons-material/Add";
-import CategoryForm from "../components/forms/category";
+import {
+  CategoryAddForm,
+  CategoryUpdateForm,
+} from "../components/forms/category/form";
 import categoryService from "../services/category.service";
 import DialogContainer from "../components/commons/dialogContainer";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
@@ -12,6 +15,7 @@ import DeleteBtn from "../components/commons/deleteBtn";
 import { Category } from "../types/category.types";
 import Chart from "../components/chart";
 import useStats from "../hooks/useStats.hook";
+import UpdateBtn from "../components/commons/updateBtn";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 300 },
@@ -30,6 +34,21 @@ const columns: GridColDef[] = [
     renderCell: (params) => {
       const { id, name } = params.row;
       return <Delete id={id} name={name} />;
+    },
+  },
+  {
+    field: "update",
+    headerName: "Update",
+    width: 80,
+    disableColumnMenu: true,
+    disableReorder: true,
+    renderCell: (params) => {
+      const category = params.row as Category;
+      return (
+        <UpdateBtn>
+          <CategoryUpdateForm category={category} />
+        </UpdateBtn>
+      );
     },
   },
 ];
@@ -82,18 +101,18 @@ const CategoriesPage = () => {
         icon={<PlaylistAddIcon color="primary" />}
         openState={[open, setOpen]}
       >
-        <CategoryForm />
+        <CategoryAddForm />
       </DialogContainer>
     </>
   );
 };
 
-type Props = {
+type DeleteProps = {
   id: string;
   name: string;
 };
 
-const Delete = ({ id, name }: Props) => {
+const Delete = ({ id, name }: DeleteProps) => {
   const [deleteCategory] = categoryService.useDeleteCategoryMutation();
 
   const handleDelete = async () => {
