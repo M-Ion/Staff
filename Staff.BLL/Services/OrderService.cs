@@ -4,6 +4,7 @@ using Staff.Common.Dtos;
 using Staff.Common.Dtos.Category;
 using Staff.Common.Dtos.Dish;
 using Staff.Common.Dtos.Order;
+using Staff.Common.Exceptions;
 using Staff.Common.Filtering;
 using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
@@ -55,7 +56,7 @@ namespace Staff.BLL.Services
                 }
             }
 
-            throw new Exception();
+            throw new NotFoundException("Dish or Note not found.");
         }
 
         public async Task<IList<GetOrderDto>> GetOrdersByDishType(DishTypes type)

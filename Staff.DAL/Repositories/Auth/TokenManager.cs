@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Staff.Common.Dtos.Auth;
+using Staff.Common.Exceptions;
 using Staff.DAL.Constants;
 using Staff.DAL.Contracts;
 using Staff.Domain;
@@ -58,7 +59,7 @@ namespace Staff.DAL.Repositories.Auth
 
                 if (!IsJwtValid(jwtVerification, validatedToken))
                 {
-                    throw new Exception();
+                    throw new InvalidTokenException("Provided jwt is not valid.");
                 }
 
                 var storedRefreshToken = await _context.Set<RefreshToken>().FirstOrDefaultAsync(t => t.Value == authRequestDto.RefreshToken);
@@ -66,7 +67,7 @@ namespace Staff.DAL.Repositories.Auth
                 if (!IsRefreshTokenValid(storedRefreshToken, jwtVerification))
                 {
                     await RevokeRefreshToken(storedRefreshToken);
-                    throw new Exception();
+                    throw new InvalidTokenException("Provided refresh token is not valid.");
                 }
 
                 var user = await _userManager.FindByIdAsync(storedRefreshToken.AppUserId);
@@ -85,7 +86,7 @@ namespace Staff.DAL.Repositories.Auth
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new InvalidTokenException("Error on refresh auth token.");
             }
             finally
             {

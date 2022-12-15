@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
+using Staff.Common.Exceptions;
 using Staff.Common.Filtering;
 using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
@@ -57,7 +58,7 @@ namespace Staff.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new NotFoundException($"Entity with id {id} not found.");
             }
         }
 
@@ -72,7 +73,7 @@ namespace Staff.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new NotFoundException($"Not found with id {id}.");
             }
         }
 
@@ -95,7 +96,7 @@ namespace Staff.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new NotFoundException($"Not found with id {id}.");
             }
         }
 

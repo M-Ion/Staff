@@ -2,6 +2,7 @@
 using Staff.Common.Dtos.Auth;
 using Staff.DAL.Contracts;
 using Staff.Domain.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace Staff.DAL.Repositories.Auth
 {
@@ -25,7 +26,19 @@ namespace Staff.DAL.Repositories.Auth
                 await _userManager.AddToRoleAsync(user, "Manager");
             }
 
-            if (result.Errors.Any()) throw new Exception();
+            if (result.Errors.Any())
+            {
+                foreach (IdentityError error in result.Errors)
+                {
+                    switch (error.Code)
+                    {
+                        case "DuplicateUserName":
+                            throw new ValidationException("The email is already taken, try another one.");
+                        default:
+                            throw new ValidationException(error.Description);
+                    }
+                }
+            }
 
             return result.Errors;
         }
@@ -39,6 +52,20 @@ namespace Staff.DAL.Repositories.Auth
                 await _userManager.AddToRoleAsync(user, role);
             }
 
+            if (result.Errors.Any())
+            {
+                foreach (IdentityError error in result.Errors)
+                {
+                    switch (error.Code)
+                    {
+                        case "DuplicateUserName":
+                            throw new ValidationException("The email is already taken, try another one.");
+                        default:
+                            throw new ValidationException(error.Description);
+                    }
+                }
+            }
+
             return result.Errors;
         }
 
@@ -48,14 +75,14 @@ namespace Staff.DAL.Repositories.Auth
 
             if (user is null)
             {
-                throw new Exception();
+                throw new ValidationException("Incorrect email.");
             }
 
             bool valid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
             if (!valid)
             {
-                throw new Exception();
+                throw new ValidationException("Incorrect password.");
             }
 
             return user;

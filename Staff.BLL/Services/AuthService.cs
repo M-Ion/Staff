@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos.AppUser;
 using Staff.Common.Dtos.Auth;
+using Staff.Common.Exceptions;
 using Staff.DAL.Contracts;
 using Staff.DAL.Extensions;
 using Staff.Domain;
@@ -117,7 +118,7 @@ namespace Staff.BLL.Services
 
             RefreshToken stored = await _tokenManager.ExistsRefreshToken(_currentCookies.RefreshToken);
 
-            if (stored is null) throw new Exception();
+            if (stored is null) throw new InvalidTokenException("Refresh token not found.");
 
             await _tokenManager.RevokeRefreshToken(stored);
         }

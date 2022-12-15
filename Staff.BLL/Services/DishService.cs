@@ -2,6 +2,7 @@
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
 using Staff.Common.Dtos.Dish;
+using Staff.Common.Exceptions;
 using Staff.Common.Filtering;
 using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
@@ -42,7 +43,7 @@ namespace Staff.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new NotFoundException($"Category with id {createDto.Category} not found.");
             }
         }
 
@@ -78,12 +79,12 @@ namespace Staff.BLL.Services
                 }
                 else
                 {
-                    throw new Exception();
+                    throw new NotFoundException($"Category with id {updateDto.Category} not found.");
                 }
             }
             else
             {
-                throw new Exception();
+                throw new NotFoundException($"Dish with id {id} not found.");
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Staff.Common.Exceptions;
 using Staff.Common.Filtering;
 using Staff.Common.Grouping;
 using Staff.DAL.Contracts;
@@ -45,9 +46,9 @@ namespace Staff.DAL.Repositories
                     (key, g) => new Group() { Key = (object)_mapper.Map<TDto>(key), Count = (ulong)g.Count(), Sum = g.Sum(l => l.Dish.Price) }
                     ).ToList();
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception();
+                throw new InvalidGroupingException(e.Message);
             }
 
             return result;
@@ -79,9 +80,9 @@ namespace Staff.DAL.Repositories
                     (key, g) => new Group() { Key = (object)key, Count = (ulong)g.Count(), Sum = g.Sum(l => l.Dish.Price) }
                     ).ToList();
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception();
+                throw new InvalidGroupingException(e.Message);
             }
 
             return result;

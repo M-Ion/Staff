@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Staff.Common.Exceptions;
 using Staff.Common.Filtering;
 using Staff.Domain;
 using System.Linq.Expressions;
@@ -46,12 +47,20 @@ namespace Staff.DAL.Extensions
             {
                 return query;
             }
+            try
+            {
+                Expression<Func<T, bool>> lambdas = BuildExpression<T>(filters);
 
-            Expression<Func<T, bool>> lambdas = BuildExpression<T>(filters);
+                query = System.Linq.Queryable.Where(query, lambdas);
 
-            query = System.Linq.Queryable.Where(query, lambdas);
+                return query;
 
-            return query;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidFilteringException(e.Message);
+            }
+
         }
 
         private static Expression<Func<T, bool>> BuildExpression<T>(IList<Filter> filters)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Staff.BLL.Contracts;
 using Staff.Common.Dtos;
+using Staff.Common.Exceptions;
 
 namespace Staff.BLL.Services
 {
@@ -33,7 +34,7 @@ namespace Staff.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new BlobException("Upload blob file failed.");
             }
         }
     }

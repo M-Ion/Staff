@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Staff.Common.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Staff.API.Infrastructure.Attributes
 {
@@ -20,7 +21,7 @@ namespace Staff.API.Infrastructure.Attributes
                 var extension = Path.GetExtension(file.FileName);
                 if (!_extensions.Contains(extension.ToLower()))
                 {
-                    throw new Exception();
+                    throw new InvalidFileExtensionException($"The {extension.ToLower()} file extension not allowed.");
                 }
             }
 
