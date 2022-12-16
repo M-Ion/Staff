@@ -78,5 +78,11 @@ const handleError = (
     }
 
     api.dispatch(setError(handledError.Message));
+  } else {
+    const error = errorResp as FetchBaseQueryError;
+
+    if (error.status === 403) {
+      api.dispatch(setError("You are not authorized."));
+    }
   }
 };

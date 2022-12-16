@@ -19,6 +19,8 @@ const companyService = apiService.injectEndpoints({
       query: () => ({
         url: `/${controller}/Workers`,
       }),
+
+      providesTags: ["Workers"],
     }),
 
     fetchGeneralWorkersStats: build.query<GeneralStats<WorkerUser>[], void>({

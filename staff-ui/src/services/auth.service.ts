@@ -49,6 +49,8 @@ const authService = apiService
           body: arg,
           method: "POST",
         }),
+
+        invalidatesTags: ["Workers"],
       }),
 
       logout: build.mutation<void, void>({

@@ -13,6 +13,8 @@ const dishService = apiService.injectEndpoints({
       query: () => ({
         url: `/${controller}`,
       }),
+
+      providesTags: ["Dishes"],
     }),
 
     fetchDishesByCategory: build.query<Dish[], string>({
@@ -54,6 +56,8 @@ const dishService = apiService.injectEndpoints({
         method: "POST",
         body: arg,
       }),
+
+      invalidatesTags: ["Dishes"],
     }),
 
     updateDish: build.mutation<void, UpdateDish>({
@@ -62,6 +66,8 @@ const dishService = apiService.injectEndpoints({
         method: "PUT",
         body: arg.body,
       }),
+
+      invalidatesTags: ["Dishes"],
     }),
 
     deleteDish: build.mutation<void, string>({
@@ -69,6 +75,8 @@ const dishService = apiService.injectEndpoints({
         url: `/${controller}/${arg}`,
         method: "DELETE",
       }),
+
+      invalidatesTags: ["Dishes"],
     }),
   }),
 });

@@ -16,6 +16,8 @@ const categoryService = apiService.injectEndpoints({
       query: () => ({
         url: `/${controller}`,
       }),
+
+      providesTags: ["Categories"],
     }),
 
     fetchFilteredCategories: build.mutation<
@@ -53,6 +55,8 @@ const categoryService = apiService.injectEndpoints({
         method: "POST",
         body: arg,
       }),
+
+      invalidatesTags: ["Categories"],
     }),
 
     updateCategory: build.mutation<void, UpdateCategory>({
@@ -61,6 +65,8 @@ const categoryService = apiService.injectEndpoints({
         method: "PUT",
         body: arg.body,
       }),
+
+      invalidatesTags: ["Categories"],
     }),
 
     deleteCategory: build.mutation<void, string>({
@@ -68,6 +74,8 @@ const categoryService = apiService.injectEndpoints({
         url: `/${controller}/${arg}`,
         method: "DELETE",
       }),
+
+      invalidatesTags: ["Categories"],
     }),
   }),
 });

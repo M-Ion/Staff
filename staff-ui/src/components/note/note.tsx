@@ -23,6 +23,7 @@ import {
   setSuccess,
   setWarning,
 } from "../../services/store/slices/feedback.slice";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 
 type Props = {
   note: Note;
@@ -57,8 +58,9 @@ const PaymentNote = ({ expandedState, note }: Props) => {
   };
 
   const handleDelete = (safe: string) => async () => {
-    await deleteNote({ id: note.id, passcode: { safe } });
-    dispatch(setWarning(`Note ${identity} deleted.`));
+    deleteNote({ id: note.id, passcode: { safe } })
+      .unwrap()
+      .then(() => dispatch(setWarning(`Note ${identity} deleted.`)));
   };
 
   const handleChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
