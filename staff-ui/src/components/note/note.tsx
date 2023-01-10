@@ -8,7 +8,7 @@ import {
   List,
   Typography,
 } from "@mui/material";
-import { groupOrders } from "../../utils/array.utils";
+import { groupOrders, groupOrdersForCheckout } from "../../utils/array.utils";
 import { Note } from "../../types/note.types";
 import { setNote } from "../../services/store/slices/note.slice";
 import { useDispatch } from "react-redux";
@@ -21,9 +21,11 @@ import noteService from "../../services/note.service";
 import React, { SetStateAction, useState } from "react";
 import {
   setSuccess,
+  setSuccessWithUndo,
   setWarning,
 } from "../../services/store/slices/feedback.slice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import PrintIcon from "@mui/icons-material/Print";
+import Invoice from "../invoice";
 
 type Props = {
   note: Note;
@@ -36,12 +38,16 @@ type Props = {
 const PaymentNote = ({ expandedState, note }: Props) => {
   const dispatch = useDispatch();
 
+  const [printState, setPrintState] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = expandedState;
 
   const [completeNote] = noteService.useCompleteNoteMutation();
+  const [undoNote] = noteService.useUndoNoteMutation();
   const [deleteNote] = noteService.useDeleteNoteMutation();
   const groupedOrders = groupOrders(note.orders);
+  const checkoutOrders = groupOrdersForCheckout(note.orders);
+
   const total = groupedOrders.reduce(
     (acc, current) => (acc += current.dish.price * current.quantity),
     0
@@ -52,9 +58,19 @@ const PaymentNote = ({ expandedState, note }: Props) => {
 
   const handleOpen = () => setOpen(true);
 
+  const handleUndo = async () => {
+    await undoNote(note.id);
+    setSuccess(`Note ${identity} undo.`);
+  };
+
   const handleComplete = async () => {
     await completeNote(note.id);
-    dispatch(setSuccess(`Note ${identity} completed.`));
+    dispatch(
+      setSuccessWithUndo({
+        message: `Note ${identity} completed.`,
+        undo: handleUndo,
+      })
+    );
   };
 
   const handleDelete = (safe: string) => async () => {
@@ -68,50 +84,59 @@ const PaymentNote = ({ expandedState, note }: Props) => {
     dispatch(setNote(isExpanded ? note : null));
   };
 
+  const togglePrint = () => setPrintState(true);
+
   return (
     <>
-      <Accordion expanded={expand} onChange={handleChange}>
-        <AccordionSummary
-          sx={noteAccordionSummSx}
-          expandIcon={<ExpandMoreIcon />}
-        >
-          <Typography>{identity}</Typography>
+      {!printState ? (
+        <Accordion expanded={expand} onChange={handleChange}>
+          <AccordionSummary
+            sx={noteAccordionSummSx}
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography>{identity}</Typography>
 
-          <Typography sx={{ color: "text.secondary" }}>{total}</Typography>
-        </AccordionSummary>
+            <Typography sx={{ color: "text.secondary" }}>{total}</Typography>
+          </AccordionSummary>
 
-        <AccordionActions>
-          <IconButton onClick={handleOpen}>
-            <DeleteIcon color="error" />
-          </IconButton>
-          <IconButton onClick={handleComplete}>
-            <CheckCircleIcon color="success" />
-          </IconButton>
-        </AccordionActions>
+          <AccordionActions>
+            <IconButton onClick={handleOpen}>
+              <DeleteIcon color="error" />
+            </IconButton>
+            <IconButton onClick={handleComplete}>
+              <CheckCircleIcon color="success" />
+            </IconButton>
+            <IconButton onClick={togglePrint}>
+              <PrintIcon />
+            </IconButton>
+          </AccordionActions>
 
-        <AccordionDetails>
-          <List sx={noteListSx}>
-            {groupedOrders.map((order, i) => {
-              let orders: string[] = [];
+          <AccordionDetails>
+            <List sx={noteListSx}>
+              {groupedOrders.map((order, i) => {
+                let orders: string[] = [];
 
-              note.orders.forEach((o) => {
-                if (o.dish.id === order.dish.id) {
-                  orders.push(o.id);
-                }
-              });
+                note.orders.forEach((o) => {
+                  if (o.dish.id === order.dish.id) {
+                    orders.push(o.id);
+                  }
+                });
 
-              return (
-                <NoteOrder
-                  key={i}
-                  noteId={note.id}
-                  order={order}
-                  orders={orders}
-                />
-              );
-            })}
-          </List>
-        </AccordionDetails>
-      </Accordion>
+                return (
+                  <NoteOrder
+                    key={i}
+                    noteId={note.id}
+                    order={order}
+                    orders={orders}
+                  />
+                );
+              })}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      ) : (
+        <Invoice orders={checkoutOrders} setPrintState={setPrintState} />
+      )}
 
       <DialogSafe execute={handleDelete} openState={[open, setOpen]} />
     </>

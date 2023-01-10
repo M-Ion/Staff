@@ -48,7 +48,7 @@ function Chart<T>({
     setBy(e.target.value as TimeByType);
   };
 
-  return !selected ? (
+  return !selected && data.length > 0 ? (
     <ResponsiveContainer width="100%">
       <BarChart height={350} data={data} margin={{ top: 20 }}>
         <CartesianGrid strokeDasharray="3 3" />

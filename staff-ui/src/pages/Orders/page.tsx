@@ -35,7 +35,10 @@ const OrdersPage = () => {
   const [menu, setMenu] = useState<Dish[]>([]);
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
-  const { data: cookOrders } = orderService.useFetchKitchenOrdersQuery();
+  const { data: cookOrders } = orderService.useFetchKitchenOrdersQuery(
+    undefined,
+    { pollingInterval: 15000 }
+  );
   const { data: barOrders } = orderService.useFetchBarOrdersQuery();
 
   const [fetchFiltered] = dishService.useFetchFilteredDishesMutation();

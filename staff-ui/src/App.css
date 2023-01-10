@@ -51,3 +51,13 @@
   margin-top: 4px;
   width: 100%;
 }
+
+.flexBetween {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.alignTextEnd {
+  text-align: end;
+}

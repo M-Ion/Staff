@@ -15,9 +15,10 @@ import { prepareFileFormData } from "../../../utils/formData.utils";
 type Props = {
   updateForm?: boolean;
   dish?: Dish;
+  rerender?: () => void;
 };
 
-const DishForm = ({ updateForm, dish }: Props) => {
+const DishForm = ({ updateForm, dish, rerender }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [upload, { isLoading: isUploading }] =
     blobService.useUploadDishBlobMutation();
@@ -62,6 +63,8 @@ const DishForm = ({ updateForm, dish }: Props) => {
     if (file) {
       const formData = prepareFileFormData(file, identity);
       await upload(formData);
+
+      if (rerender) rerender();
     }
 
     resetForm();
@@ -126,7 +129,13 @@ const DishForm = ({ updateForm, dish }: Props) => {
   );
 };
 
-export const DishAddForm = () => <DishForm />;
+type AddProps = {
+  rerender?: () => void;
+};
+
+export const DishAddForm = ({ rerender }: AddProps) => (
+  <DishForm rerender={rerender} />
+);
 
 type UpdateProps = {
   dish: Dish;

@@ -1,38 +1,38 @@
 import { LoadingButton } from "@mui/lab";
-import { useFormik } from "formik";
+import { FormikHelpers, useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { btnSubmitSx } from "../../../assets/styles";
 import authService from "../../../services/auth.service";
+import { setSuccess } from "../../../services/store/slices/feedback.slice";
 import { setState, UserState } from "../../../services/store/slices/user.slice";
 import { Login } from "../../../types/auth.types";
 import FormField from "../../commons/formField";
 import loginSchema from "./validation";
 
 const initialValues: Login = {
-  email: "managerPaul@manager.com",
-  password: "P@sswordPaul1",
+  email: "",
+  password: "",
 };
-
-// const initialValues: Login = {
-//   email: "managerNorma3@manager.com",
-//   password: "P@ssword1",
-// };
 
 const LoginForm = () => {
   const dispatch = useDispatch();
 
   const [login, { isLoading }] = authService.useLoginMutation();
 
-  const handleSubmit = async (values: Login) => {
-    const response = await login(values).unwrap();
+  const handleSubmit = (values: Login, { resetForm }: FormikHelpers<Login>) => {
+    login(values)
+      .unwrap()
+      .then((response) => {
+        const user: UserState = {
+          currentUser: response.user,
+          token: response.token,
+        };
 
-    const user: UserState = {
-      currentUser: response.user,
-      token: response.token,
-    };
-
-    dispatch(setState(user));
+        resetForm();
+        dispatch(setState(user));
+        dispatch(setSuccess("Your are successfully  logged in"));
+      });
   };
 
   const formik = useFormik<Login>({

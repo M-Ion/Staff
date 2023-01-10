@@ -24,3 +24,22 @@ export const groupOrders = (arr: Order[]) => {
     else return 1;
   });
 };
+
+export const groupOrdersForCheckout = (arr: Order[]) => {
+  let groupedOrder: Order[] = [];
+
+  arr.forEach((order) => {
+    const index = groupedOrder.findIndex((o) => o.dish.id === order.dish.id);
+
+    if (index > -1) {
+      groupedOrder[index].quantity += order.quantity;
+    } else {
+      groupedOrder.push({ ...order });
+    }
+  });
+
+  return groupedOrder.sort((a, b) => {
+    if (!a.isPrepared) return -1;
+    else return 1;
+  });
+};

@@ -32,6 +32,16 @@ const noteService = apiService.injectEndpoints({
       invalidatesTags: ["Note"],
     }),
 
+    undoNote: build.mutation<void, string>({
+      query: (arg) => ({
+        url: `/${controller}/${arg}`,
+        method: "PUT",
+        body: { isCompleted: false },
+      }),
+
+      invalidatesTags: ["Note"],
+    }),
+
     deleteNote: build.mutation<void, { id: string; passcode: Safe }>({
       query: (arg) => ({
         url: `/${controller}/${arg.id}`,

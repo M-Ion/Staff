@@ -6,24 +6,38 @@ import FormField from "../../commons/formField";
 import { btnSubmitSx } from "../../../assets/styles";
 import { SignUpManager } from "../../../types/auth.types";
 import authService from "../../../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 const initialValues: SignUpManager = {
-  fullName: "Norma Wall",
-  companyName: "Fancy",
-  email: "managerNorma@manager.com",
-  password: "P@sswordNorma1",
+  fullName: "",
+  companyName: "",
+  email: "",
+  password: "",
   confirm: "",
 };
 
+// const initialValues: SignUpManager = {
+//   fullName: "Norma Wall",
+//   companyName: "Fancy",
+//   email: "managerNorma@manager.com",
+//   password: "P@sswordNorma1",
+//   confirm: "",
+// };
+
 const SignUpForm = () => {
+  const navigate = useNavigate();
   const [signUp, { isLoading }] = authService.useSignUpManagerMutation();
 
   const handleSubmit = async (
     values: SignUpManager,
     { resetForm }: FormikHelpers<SignUpManager>
   ) => {
-    await signUp(values);
-    resetForm();
+    signUp(values)
+      .unwrap()
+      .then(() => {
+        resetForm();
+        navigate("/login");
+      });
   };
 
   const formik = useFormik<SignUpManager>({

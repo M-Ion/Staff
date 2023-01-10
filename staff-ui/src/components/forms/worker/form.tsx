@@ -8,11 +8,20 @@ import workerSchema from "./validation";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import authService from "../../../services/auth.service";
 
+// const initialValues: SignUpStaff = {
+//   fullName: "Norma Wall",
+//   companyName: "",
+//   email: "managerNorma@manager.com",
+//   password: "P@sswordNorma1",
+//   confirm: "",
+//   role: StaffRoles.Waiter,
+// };
+
 const initialValues: SignUpStaff = {
-  fullName: "Norma Wall",
+  fullName: "",
   companyName: "",
-  email: "managerNorma@manager.com",
-  password: "P@sswordNorma1",
+  email: "",
+  password: "",
   confirm: "",
   role: StaffRoles.Waiter,
 };

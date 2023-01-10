@@ -8,7 +8,9 @@ import React, { useState } from "react";
 const NotesList = () => {
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const { data: notes } = noteService.useFetchWaiterNotesQuery();
+  const { data: notes } = noteService.useFetchWaiterNotesQuery(undefined, {
+    pollingInterval: 15000,
+  });
   const [post] = noteService.usePostNoteMutation();
 
   const handlePostNote = async () => {

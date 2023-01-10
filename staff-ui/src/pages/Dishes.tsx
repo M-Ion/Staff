@@ -88,7 +88,7 @@ const columns: GridColDef[] = [
 
 const DishesPage = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { data } = dishService.useFetchDishesQuery();
+  const { data, refetch } = dishService.useFetchDishesQuery();
 
   const handleOpen = () => setOpen(true);
 
@@ -138,7 +138,7 @@ const DishesPage = () => {
         icon={<FastfoodIcon color="primary" />}
         openState={[open, setOpen]}
       >
-        <DishAddForm />
+        <DishAddForm rerender={refetch} />
       </DialogContainer>
     </>
   );

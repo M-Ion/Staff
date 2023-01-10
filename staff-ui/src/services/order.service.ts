@@ -55,6 +55,18 @@ const orderService = apiService.injectEndpoints({
       invalidatesTags: ["Orders"],
     }),
 
+    undoOrder: build.mutation<void, string>({
+      query: (arg) => ({
+        url: `/${controller}/${arg}`,
+        method: "PUT",
+        body: {
+          isPrepared: false,
+        },
+      }),
+
+      invalidatesTags: ["Orders"],
+    }),
+
     deleteOrder: build.mutation<void, { id: string; passcode: Safe }>({
       query: (arg) => ({
         url: `/${controller}/${arg.id}`,

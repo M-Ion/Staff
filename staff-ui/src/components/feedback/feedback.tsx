@@ -1,8 +1,16 @@
-import { Alert, AlertTitle, Snackbar, SnackbarOrigin } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Snackbar,
+  SnackbarOrigin,
+  Tooltip,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { feedbackStatusSx, fullW } from "../../assets/styles";
 import { selectFeedback } from "../../services/store/slices/feedback.slice";
+import UndoIcon from "@mui/icons-material/Undo";
+import IconButton from "@mui/material/IconButton";
 
 const snackBarOrigin: SnackbarOrigin = {
   horizontal: "center",
@@ -21,6 +29,11 @@ const Feedback = () => {
     setOpen(false);
   };
 
+  const handleUndo = async () => {
+    if (feedback.undoAction) await feedback.undoAction();
+    handleClose();
+  };
+
   return (
     <Snackbar
       anchorOrigin={snackBarOrigin}
@@ -32,6 +45,15 @@ const Feedback = () => {
         onClose={handleClose}
         severity={feedback.status ?? "info"}
         sx={{ ...fullW }}
+        action={
+          feedback.undoAction ? (
+            <Tooltip title="Undo">
+              <IconButton color="inherit" size="small" onClick={handleUndo}>
+                <UndoIcon />
+              </IconButton>
+            </Tooltip>
+          ) : undefined
+        }
       >
         <AlertTitle sx={feedbackStatusSx}>{feedback.status}</AlertTitle>
         {feedback.message}
