@@ -37,10 +37,12 @@ namespace Staff.BLL.Services
             if (by == GroupStatsBy.Year)
             {
                 GroupRequest request = new() { Prop = "created.Year", Filter = filter };
-                return await _orderRepo.GetGroupData(_user.CompanyId, request);
+                return (await _orderRepo.GetGroupData(_user.CompanyId, request)).OrderBy(g => g.Key).ToList();
             }
 
-            return await _orderRepo.GetGroupMonthlyData(_user.CompanyId, filter);
+            var result = await _orderRepo.GetGroupMonthlyData(_user.CompanyId, filter);
+            return result
+                .Select(g => new Group { Key = (object)g.Key, Count = g.Count, Sum = g.Sum }).ToList();
         }
     }
 }

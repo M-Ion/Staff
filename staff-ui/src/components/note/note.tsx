@@ -64,13 +64,16 @@ const PaymentNote = ({ expandedState, note }: Props) => {
   };
 
   const handleComplete = async () => {
-    await completeNote(note.id);
-    dispatch(
-      setSuccessWithUndo({
-        message: `Note ${identity} completed.`,
-        undo: handleUndo,
-      })
-    );
+    completeNote(note.id).then(() => {
+      setExpanded(null);
+      dispatch(setNote(null));
+      dispatch(
+        setSuccessWithUndo({
+          message: `Note ${identity} completed.`,
+          undo: handleUndo,
+        })
+      );
+    });
   };
 
   const handleDelete = (safe: string) => async () => {

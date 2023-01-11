@@ -10,6 +10,6 @@ export interface GeneralStats<T> extends StatsInfo {
 export interface SpecificStats extends StatsInfo {
   key: {
     year: number;
-    month?: number;
+    month: number;
   };
 }

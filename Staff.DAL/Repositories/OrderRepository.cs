@@ -88,7 +88,7 @@ namespace Staff.DAL.Repositories
             return result;
         }
 
-        public async Task<IList<Group>> GetGroupMonthlyData(string companyId, Filter filter)
+        public async Task<IList<Group<MonthlyGroup>>> GetGroupMonthlyData(string companyId, Filter filter)
         {
             IList<Order> items = new List<Order>();
 
@@ -103,8 +103,16 @@ namespace Staff.DAL.Repositories
                 items = await GetEvery(companyId);
             }
 
-            IList<Group> result = items.GroupBy(o => new { Year = o.Created.Year, Month = o.Created.Month },
-                (key, g) => new Group() { Key = (object)key, Count = (ulong)g.Count(), Sum = g.Sum(l => l.Dish.Price) })
+            IList<Group<MonthlyGroup>> result = items.GroupBy(o => new { Year = o.Created.Year, Month = o.Created.Month },
+                (key, g) => new Group<MonthlyGroup>() 
+                { 
+                    Key = new MonthlyGroup() 
+                    { 
+                        Year = key.Year, Month = key.Month 
+                    }, 
+                    Count = (ulong)g.Count(), 
+                    Sum = g.Sum(l => l.Dish.Price) 
+                })
                 .ToList();
 
             return result;

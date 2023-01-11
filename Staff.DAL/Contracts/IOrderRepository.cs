@@ -11,6 +11,6 @@ namespace Staff.DAL.Contracts
 
         Task<IList<Group>> GetGroupData<TDto>(string companyId, GroupRequest request);
 
-        Task<IList<Group>> GetGroupMonthlyData(string companyId, Filter filter);
+        Task<IList<Group<MonthlyGroup>>> GetGroupMonthlyData(string companyId, Filter filter);
     }
 }

@@ -8,4 +8,13 @@
 
         public double Sum;
     }
+
+    public class Group<T>
+    {
+        public T Key;
+
+        public UInt64 Count;
+
+        public double Sum;
+    }
 }

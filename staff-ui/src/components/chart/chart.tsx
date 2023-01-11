@@ -10,6 +10,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Label,
   Legend,
   Line,
   LineChart,
@@ -84,7 +85,9 @@ function Chart<T>({
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={key} />
+          <XAxis dataKey={key}>
+            <Label value={"test"}></Label>
+          </XAxis>
           <YAxis />
           <Tooltip />
           <Legend />
