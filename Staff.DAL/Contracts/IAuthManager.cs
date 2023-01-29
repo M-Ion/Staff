@@ -11,5 +11,7 @@ namespace Staff.DAL.Contracts
         Task<IEnumerable<IdentityError>> Register(WorkerUser user, string password, string role);
 
         Task<AppUser> Login(LoginDto loginUserDto);
+
+        Task<IEnumerable<IdentityError>> Update(AppUser workerUser, string role = null, string updatedPassword = null);
     }
 }

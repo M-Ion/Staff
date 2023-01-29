@@ -1,46 +1,59 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import { FormikHelpers, useFormik } from "formik";
 import FormField from "../../commons/formField";
 import { btnSubmitSx, selectSx } from "../../../assets/styles";
 import { SignUpStaff, StaffRoles } from "../../../types/auth.types";
-import workerSchema from "./validation";
+import workerSchema, { workerSchemaUpdate } from "./validation";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import authService from "../../../services/auth.service";
-
-// const initialValues: SignUpStaff = {
-//   fullName: "Norma Wall",
-//   companyName: "",
-//   email: "managerNorma@manager.com",
-//   password: "P@sswordNorma1",
-//   confirm: "",
-//   role: StaffRoles.Waiter,
-// };
+import { WorkerUser } from "../../../types/user.types";
 
 const initialValues: SignUpStaff = {
   fullName: "",
-  companyName: "",
   email: "",
   password: "",
+  companyName: "",
   confirm: "",
   role: StaffRoles.Waiter,
 };
 
-const WorkerForm = () => {
+type Props = {
+  updateForm?: boolean;
+  user?: WorkerUser;
+};
+
+const Form = ({ updateForm, user }: Props) => {
   const [signUp, { isLoading }] = authService.useSignUpStaffMutation();
+  const [update, { isLoading: isUpdating }] =
+    authService.useUpdateWorkerMutation();
 
   const handleSubmit = async (
     values: SignUpStaff,
     { resetForm }: FormikHelpers<SignUpStaff>
   ) => {
-    await signUp(values);
-    resetForm();
+    if (updateForm && user) {
+      update({ id: user.id, body: values }).then(() => resetForm());
+    } else {
+      signUp(values).then(() => resetForm());
+    }
   };
+
+  useEffect(() => {
+    if (updateForm && user) {
+      const role = user.roles[0];
+
+      initialValues.fullName = user.fullName;
+      initialValues.email = user.email;
+      initialValues.role = (StaffRoles as any)[role];
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateForm, user]);
 
   const formik = useFormik<SignUpStaff>({
     initialValues,
     onSubmit: handleSubmit,
-    validationSchema: workerSchema,
+    validationSchema: !updateForm ? workerSchema : workerSchemaUpdate,
   });
 
   return (
@@ -94,16 +107,24 @@ const WorkerForm = () => {
       />
 
       <LoadingButton
-        loading={isLoading}
+        loading={!updateForm ? isLoading : isUpdating}
         type="submit"
         variant="contained"
         fullWidth
         sx={{ ...btnSubmitSx }}
       >
-        Add
+        {!updateForm ? "Add" : "Update"}
       </LoadingButton>
     </form>
   );
 };
 
+const WorkerForm = () => <Form />;
 export default WorkerForm;
+
+type UpdateProps = {
+  user: WorkerUser;
+};
+export const WorkerUpdateForm = ({ user }: UpdateProps) => (
+  <Form updateForm={true} user={user} />
+);

@@ -104,15 +104,16 @@ namespace Staff.DAL.Repositories
             }
 
             IList<Group<MonthlyGroup>> result = items.GroupBy(o => new { Year = o.Created.Year, Month = o.Created.Month },
-                (key, g) => new Group<MonthlyGroup>() 
-                { 
-                    Key = new MonthlyGroup() 
-                    { 
-                        Year = key.Year, Month = key.Month 
-                    }, 
-                    Count = (ulong)g.Count(), 
-                    Sum = g.Sum(l => l.Dish.Price) 
+                (key, g) => new Group<MonthlyGroup>()
+                {
+                    Key = new MonthlyGroup()
+                    {
+                        Year = key.Year, Month = key.Month
+                    },
+                    Count = (ulong)g.Count(),
+                    Sum = g.Sum(l => l.Dish.Price)
                 })
+                .OrderBy(g => g, new MonthlyGroupComparer())
                 .ToList();
 
             return result;

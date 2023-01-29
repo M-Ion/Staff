@@ -11,6 +11,8 @@ import { stickyFabSx } from "../assets/styles";
 import Chart from "../components/chart";
 import useStats from "../hooks/useStats.hook";
 import { WorkerUser } from "../types/user.types";
+import UpdateBtn from "../components/commons/updateBtn";
+import { WorkerUpdateForm } from "../components/forms/worker/form";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 300 },
@@ -24,6 +26,21 @@ const columns: GridColDef[] = [
     field: "roles",
     headerName: "Role",
     width: 120,
+  },
+  {
+    field: "update",
+    headerName: "Update",
+    width: 80,
+    disableColumnMenu: true,
+    disableReorder: true,
+    renderCell: (params) => {
+      const user = params.row as WorkerUser;
+      return (
+        <UpdateBtn>
+          <WorkerUpdateForm user={user} />
+        </UpdateBtn>
+      );
+    },
   },
 ];
 

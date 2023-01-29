@@ -21,7 +21,7 @@ namespace Staff.Common.Grouping
 
             if (x.Key.Year < y.Key.Year) return -1;
 
-            return 0;
+            return 1;
         }
     }
 }

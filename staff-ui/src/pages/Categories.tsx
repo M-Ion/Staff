@@ -32,8 +32,8 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
     disableReorder: true,
     renderCell: (params) => {
-      const { id, name } = params.row;
-      return <Delete id={id} name={name} />;
+      const { id, name, implicit } = params.row;
+      return implicit ? null : <Delete id={id} name={name} />;
     },
   },
   {

@@ -25,7 +25,7 @@ const StatisticsPage = (props: Props) => {
 
   const { data } = orderService.useFetchOrdersStatsQuery(by);
 
-  const key = Boolean(by) ? (by === "Year" ? "key" : "key.month") : undefined;
+  const key = Boolean(by) ? "key" : undefined;
 
   const handleChange = (e: SelectChangeEvent<"Year" | "Month">) =>
     setBy(e.target.value as "Year" | "Month");

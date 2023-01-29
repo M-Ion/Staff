@@ -9,5 +9,7 @@ namespace Staff.Domain.Dishes
 
         [Required]
         public DishTypes DishType { get; set; }
+
+        public bool Implicit { get; set; } = false;
     }
 }

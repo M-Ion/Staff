@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Staff.DAL;
 
@@ -11,9 +12,10 @@ using Staff.DAL;
 namespace Staff.DAL.Migrations
 {
     [DbContext(typeof(StaffDbContext))]
-    partial class StaffDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230129115530_ImplicitPropForCategory")]
+    partial class ImplicitPropForCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +172,7 @@ namespace Staff.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company", (string)null);
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("Staff.Domain.Dishes.Category", b =>
@@ -196,7 +198,7 @@ namespace Staff.DAL.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Staff.Domain.Dishes.Dish", b =>
@@ -230,7 +232,7 @@ namespace Staff.DAL.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Dish", (string)null);
+                    b.ToTable("Dish");
                 });
 
             modelBuilder.Entity("Staff.Domain.Note", b =>
@@ -254,7 +256,7 @@ namespace Staff.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Note", (string)null);
+                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("Staff.Domain.Order", b =>
@@ -293,7 +295,7 @@ namespace Staff.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Staff.Domain.RefreshToken", b =>
@@ -323,7 +325,7 @@ namespace Staff.DAL.Migrations
                         .IsUnique()
                         .HasFilter("[AppUserId] IS NOT NULL");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Staff.Domain.Users.AppUser", b =>

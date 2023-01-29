@@ -53,6 +53,16 @@ const authService = apiService
         invalidatesTags: ["Workers"],
       }),
 
+      updateWorker: build.mutation<void, { id: string; body: SignUpStaff }>({
+        query: (arg) => ({
+          url: `/${controller}/${arg.id}`,
+          method: "PUT",
+          body: arg.body,
+        }),
+
+        invalidatesTags: ["Workers"],
+      }),
+
       logout: build.mutation<void, void>({
         query: (arg) => ({
           url: `${controller}/Logout`,

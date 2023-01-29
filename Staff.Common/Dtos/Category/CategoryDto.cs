@@ -12,5 +12,7 @@ namespace Staff.Common.Dtos.Category
 
         [Required]
         public string DishType { get; set; }
+
+        public bool Implicit { get; set; }
     }
 }

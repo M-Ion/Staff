@@ -44,6 +44,17 @@ namespace Staff.API.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Update([FromBody] UpdateWorkUser updateDto, [FromRoute] string id)
+        {
+            var errors = await _authService.Update(updateDto, id);
+
+            if (errors.Any()) return BadRequest(errors);
+
+            return Ok();
+        }
+
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<AuthResponseDto>> CheckUserSession()

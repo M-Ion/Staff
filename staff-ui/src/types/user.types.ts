@@ -1,3 +1,5 @@
+import { update } from "lodash";
+import { StaffRoles } from "./auth.types";
 import { Company, GetCompany } from "./company.types";
 
 export type User = AppUser | WorkerUser;
@@ -15,4 +17,10 @@ export interface AppUser extends BaseUser {
 
 export interface WorkerUser extends BaseUser {
   company: GetCompany;
+}
+
+export interface updateUser {
+  fullName: string;
+  role: StaffRoles;
+  email: string;
 }

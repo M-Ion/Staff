@@ -75,7 +75,7 @@ const categoryService = apiService.injectEndpoints({
         method: "DELETE",
       }),
 
-      invalidatesTags: ["Categories"],
+      invalidatesTags: ["Categories", "Dishes"],
     }),
   }),
 });

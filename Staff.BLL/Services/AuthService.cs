@@ -64,6 +64,21 @@ namespace Staff.BLL.Services
             return await _authManager.Register(user, registerDto.Password, registerDto.Role.ToDescriptionString());
         }
 
+        public async Task<IEnumerable<IdentityError>> Update(UpdateWorkUser updateDto, string id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                throw new NotFoundException("");
+            }
+
+            _mapper.Map(updateDto, user);
+
+            IEnumerable<IdentityError> result = await _authManager.Update(user, updateDto.Role.ToString(), updateDto.Password);
+
+            return result;
+        }
+
         public async Task<AuthResponseDto> Login(LoginDto loginDto)
         {
             AppUser user = await _authManager.Login(loginDto);

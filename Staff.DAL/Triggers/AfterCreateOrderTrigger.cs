@@ -1,18 +1,13 @@
 ﻿using EntityFrameworkCore.Triggered;
 using Staff.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Staff.DAL.Triggers
 {
-    public class CreateOrderTrigger : IBeforeSaveTrigger<Order>
+    public class AfterCreateOrderTrigger : IBeforeSaveTrigger<Order>
     {
         readonly StaffDbContext _context;
 
-        public CreateOrderTrigger(StaffDbContext context)
+        public AfterCreateOrderTrigger(StaffDbContext context)
         {
             _context = context;
         }

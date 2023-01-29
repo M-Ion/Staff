@@ -42,7 +42,7 @@ namespace Staff.BLL.Services
 
             var result = await _orderRepo.GetGroupMonthlyData(_user.CompanyId, filter);
             return result
-                .Select(g => new Group { Key = (object)g.Key, Count = g.Count, Sum = g.Sum }).ToList();
+                .Select(g => new Group { Key = (object)($"{g.Key.Month}/{g.Key.Year}"), Count = g.Count, Sum = g.Sum }).ToList();
         }
     }
 }

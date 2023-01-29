@@ -3,11 +3,11 @@ using Staff.Domain;
 
 namespace Staff.DAL.Triggers
 {
-    public class DeleteNoteTrigger : IBeforeSaveTrigger<Note>
+    public class BeforeDeleteNoteTrigger : IBeforeSaveTrigger<Note>
     {
         readonly StaffDbContext _context;
 
-        public DeleteNoteTrigger(StaffDbContext context)
+        public BeforeDeleteNoteTrigger(StaffDbContext context)
         {
             _context = context;
         }

@@ -42,7 +42,7 @@ function Chart<T>({
   const [selected, setSelected] = selectState;
   const [by, setBy] = byState;
 
-  const key = Boolean(by) ? (by === "Year" ? "key" : "key.month") : undefined;
+  const key = "key";
 
   const handleChange = (e: SelectChangeEvent<TimeByType>) => {
     if (!e.target.value) setSelected(null);
@@ -85,9 +85,8 @@ function Chart<T>({
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey={key}>
-            <Label value={"test"}></Label>
-          </XAxis>
+          <XAxis dataKey={key} />
+
           <YAxis />
           <Tooltip />
           <Legend />

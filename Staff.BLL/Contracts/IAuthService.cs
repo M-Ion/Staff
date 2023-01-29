@@ -10,6 +10,8 @@ namespace Staff.BLL.Contracts
 
         Task<IEnumerable<IdentityError>> Register(RegisterStaffDto registerDto);
 
+        Task<IEnumerable<IdentityError>> Update(UpdateWorkUser updateDto, string id);
+
         Task<AuthResponseDto> Login(LoginDto loginUserDto);
 
         Task<TokenDto> AccessToken();
