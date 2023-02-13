@@ -9,7 +9,7 @@ namespace Staff.Domain
         [Key]
         public Guid Id { get; set; }
 
-        public string Safe { get; set; }
+        public string Safe { get; set; } = "111111";
 
         private IList<AppUser> _users;
 
