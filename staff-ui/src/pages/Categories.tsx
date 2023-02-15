@@ -16,46 +16,54 @@ import { Category } from "../types/category.types";
 import Chart from "../components/chart";
 import useStats from "../hooks/useStats.hook";
 import UpdateBtn from "../components/commons/updateBtn";
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 300 },
-  { field: "name", headerName: "Name", width: 130 },
-  {
-    field: "dishType",
-    headerName: "Type",
-    width: 110,
-  },
-  {
-    field: "delete",
-    headerName: "Delete",
-    width: 80,
-    disableColumnMenu: true,
-    disableReorder: true,
-    renderCell: (params) => {
-      const { id, name, implicit } = params.row;
-      return implicit ? null : <Delete id={id} name={name} />;
-    },
-  },
-  {
-    field: "update",
-    headerName: "Update",
-    width: 80,
-    disableColumnMenu: true,
-    disableReorder: true,
-    renderCell: (params) => {
-      const category = params.row as Category;
-      return (
-        <UpdateBtn>
-          <CategoryUpdateForm category={category} />
-        </UpdateBtn>
-      );
-    },
-  },
-];
+import langDict from "../utils/lang.utils";
+import { useSelector } from "react-redux";
+import { selectLang } from "../services/store/slices/localization.slice";
 
 const CategoriesPage = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const currentLang = useSelector(selectLang);
   const { data } = categoryService.useFetchCategoriesQuery();
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 300 },
+    {
+      field: "name",
+      headerName: currentLang === "RO" ? langDict.get("name") : "Name",
+      width: 130,
+    },
+    {
+      field: "dishType",
+      headerName: currentLang === "RO" ? langDict.get("type") : "Type",
+      width: 110,
+    },
+    {
+      field: "delete",
+      headerName: currentLang === "RO" ? langDict.get("delete") : "Delete",
+      width: 80,
+      disableColumnMenu: true,
+      disableReorder: true,
+      renderCell: (params) => {
+        const { id, name, implicit } = params.row;
+        return implicit ? null : <Delete id={id} name={name} />;
+      },
+    },
+    {
+      field: "update",
+      headerName: currentLang === "RO" ? langDict.get("update") : "Update",
+      width: 80,
+      disableColumnMenu: true,
+      disableReorder: true,
+      renderCell: (params) => {
+        const category = params.row as Category;
+        return (
+          <UpdateBtn>
+            <CategoryUpdateForm category={category} />
+          </UpdateBtn>
+        );
+      },
+    },
+  ];
 
   const handleOpen = () => setOpen(true);
 

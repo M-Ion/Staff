@@ -4,13 +4,15 @@ import noteReducer from "./slices/note.slice";
 import feedbackReducer from "./slices/feedback.slice";
 import apiService from "../api.service";
 import blobService from "../blob.service";
+import localizationReducer from "./slices/localization.slice";
 
 const root = combineReducers({
-  user: userReducer,
-  note: noteReducer,
-  feedback: feedbackReducer,
   [apiService.reducerPath]: apiService.reducer,
   [blobService.reducerPath]: blobService.reducer,
+  feedback: feedbackReducer,
+  localization: localizationReducer,
+  note: noteReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({

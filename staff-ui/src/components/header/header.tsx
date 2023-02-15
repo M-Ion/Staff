@@ -33,6 +33,12 @@ import authService from "../../services/auth.service";
 import DialogContainer from "../commons/dialogContainer";
 import OnlyAuth from "../commons/onlyAuth";
 import Profile from "../profile";
+import {
+  Lang,
+  selectLang,
+  setLang,
+} from "../../services/store/slices/localization.slice";
+import langDict from "../../utils/lang.utils";
 
 type Props = {
   headerSx?: SxProps;
@@ -43,6 +49,7 @@ const Header = ({ headerSx }: Props) => {
   const navigate = useNavigate();
 
   const currentUser = useSelector(selectUser);
+  const currentLang = useSelector(selectLang);
   const [workspace, setWorkspace] = useState<string>("/login");
   const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null);
   const [openProfile, setOpenProfile] = useState<boolean>(false);
@@ -57,6 +64,14 @@ const Header = ({ headerSx }: Props) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLangChange = () => {
+    if (currentLang === "EN") {
+      dispatch(setLang(Lang.RO));
+      return;
+    }
+    dispatch(setLang(Lang.EN));
   };
 
   const handleLogout = async () => {
@@ -108,7 +123,9 @@ const Header = ({ headerSx }: Props) => {
           <Box sx={{ ...growSx }}>
             <OnlyAuth>
               <Link to={workspace} style={{ textDecoration: "none" }}>
-                <Button sx={{ ...headerBtnSx }}>Workspace</Button>
+                <Button sx={{ ...headerBtnSx }}>
+                  {currentLang === "RO" ? "Pagina de lucru" : "Workspace"}
+                </Button>
               </Link>
             </OnlyAuth>
           </Box>
@@ -149,17 +166,28 @@ const Header = ({ headerSx }: Props) => {
                   <ListItemIcon>
                     <AssignmentIndIcon fontSize="small" />
                   </ListItemIcon>
-                  <Typography textAlign="center">Profile</Typography>
+                  <Typography textAlign="center">
+                    {currentLang === "RO" ? langDict.get("profile") : "Profile"}
+                  </Typography>
                 </MenuItem>
 
                 <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <LogoutIcon fontSize="small" />
                   </ListItemIcon>
-                  <Typography textAlign="center">Logout</Typography>
+                  <Typography textAlign="center">
+                    {currentLang === "RO" ? langDict.get("logout") : "Logout"}
+                  </Typography>
                 </MenuItem>
               </Menu>
             </OnlyAuth>
+            <Button
+              variant="text"
+              sx={{ color: "#ffffff" }}
+              onClick={handleLangChange}
+            >
+              {currentLang === "EN" ? "RO" : "EN"}
+            </Button>
           </Box>
         </Toolbar>
       </Container>

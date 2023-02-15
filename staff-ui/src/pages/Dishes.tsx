@@ -15,80 +15,92 @@ import { Dish } from "../types/dish.types";
 import Chart from "../components/chart";
 import useStats from "../hooks/useStats.hook";
 import UpdateBtn from "../components/commons/updateBtn";
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 300 },
-  { field: "name", headerName: "Name", width: 130 },
-  {
-    field: "img",
-    headerName: "Img",
-    width: 100,
-    renderCell: (params) => {
-      return <Avatar src={params.row.blob ? params.row.blob : "/food.jpg"} />;
-    },
-    disableColumnMenu: true,
-    disableReorder: true,
-  },
-  { field: "price", headerName: "Price", width: 130 },
-  {
-    field: "category",
-    headerName: "Category",
-    width: 130,
-    valueGetter: (params: GridValueGetterParams) => {
-      const category = params.row.category as Category;
-      return category.name;
-    },
-  },
-  {
-    field: "dishType",
-    headerName: "Dish Type",
-    width: 130,
-    valueGetter: (params: GridValueGetterParams) => {
-      const category = params.row.category as Category;
-      return category.dishType;
-    },
-  },
-  {
-    field: "isInStop",
-    headerName: "Stop",
-    width: 100,
-    renderCell: (params) => {
-      return <>{params.row.isInStop ? <CancelIcon color="error" /> : null}</>;
-    },
-    disableColumnMenu: true,
-    disableReorder: true,
-  },
-  {
-    field: "delete",
-    headerName: "Delete",
-    width: 80,
-    disableColumnMenu: true,
-    disableReorder: true,
-    renderCell: (params) => {
-      const { id, name } = params.row;
-      return <Delete id={id} name={name} />;
-    },
-  },
-  {
-    field: "update",
-    headerName: "Update",
-    width: 80,
-    disableColumnMenu: true,
-    disableReorder: true,
-    renderCell: (params) => {
-      const dish = params.row as Dish;
-      return (
-        <UpdateBtn>
-          <DishUpdateForm dish={dish} />
-        </UpdateBtn>
-      );
-    },
-  },
-];
+import { useSelector } from "react-redux";
+import { selectLang } from "../services/store/slices/localization.slice";
+import langDict from "../utils/lang.utils";
 
 const DishesPage = () => {
   const [open, setOpen] = useState<boolean>(false);
   const { data, refetch } = dishService.useFetchDishesQuery();
+  const currentLang = useSelector(selectLang);
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 300 },
+    {
+      field: "name",
+      headerName: currentLang === "RO" ? langDict.get("name") : "Name",
+      width: 130,
+    },
+    {
+      field: "img",
+      headerName: "Img",
+      width: 100,
+      renderCell: (params) => {
+        return <Avatar src={params.row.blob ? params.row.blob : "/food.jpg"} />;
+      },
+      disableColumnMenu: true,
+      disableReorder: true,
+    },
+    {
+      field: "price",
+      headerName: currentLang === "RO" ? langDict.get("price") : "Price",
+      width: 130,
+    },
+    {
+      field: "category",
+      headerName: currentLang === "RO" ? langDict.get("category") : "Category",
+      width: 130,
+      valueGetter: (params: GridValueGetterParams) => {
+        const category = params.row.category as Category;
+        return category.name;
+      },
+    },
+    {
+      field: "dishType",
+      headerName: currentLang === "RO" ? langDict.get("type") : "Dish Type",
+      width: 130,
+      valueGetter: (params: GridValueGetterParams) => {
+        const category = params.row.category as Category;
+        return category.dishType;
+      },
+    },
+    {
+      field: "isInStop",
+      headerName: "Stop",
+      width: 100,
+      renderCell: (params) => {
+        return <>{params.row.isInStop ? <CancelIcon color="error" /> : null}</>;
+      },
+      disableColumnMenu: true,
+      disableReorder: true,
+    },
+    {
+      field: "delete",
+      headerName: currentLang === "RO" ? langDict.get("delete") : "Delete",
+      width: 80,
+      disableColumnMenu: true,
+      disableReorder: true,
+      renderCell: (params) => {
+        const { id, name } = params.row;
+        return <Delete id={id} name={name} />;
+      },
+    },
+    {
+      field: "update",
+      headerName: currentLang === "RO" ? langDict.get("update") : "Update",
+      width: 80,
+      disableColumnMenu: true,
+      disableReorder: true,
+      renderCell: (params) => {
+        const dish = params.row as Dish;
+        return (
+          <UpdateBtn>
+            <DishUpdateForm dish={dish} />
+          </UpdateBtn>
+        );
+      },
+    },
+  ];
 
   const handleOpen = () => setOpen(true);
 

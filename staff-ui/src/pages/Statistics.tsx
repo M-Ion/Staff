@@ -17,11 +17,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useSelector } from "react-redux";
+import { selectLang } from "../services/store/slices/localization.slice";
+import langDict from "../utils/lang.utils";
 
 type Props = {};
 
 const StatisticsPage = (props: Props) => {
   const [by, setBy] = useState<"Year" | "Month">("Year");
+  const currentLang = useSelector(selectLang);
 
   const { data } = orderService.useFetchOrdersStatsQuery(by);
 
@@ -46,7 +50,9 @@ const StatisticsPage = (props: Props) => {
               onChange={handleChange}
               label="By"
             >
-              <MenuItem value={"Year"}>Year</MenuItem>
+              <MenuItem value={"Year"}>
+                {currentLang === "RO" ? langDict.get("year") : "Year"}
+              </MenuItem>
               <MenuItem value={"Month"}>Month</MenuItem>
             </Select>
           </FormControl>

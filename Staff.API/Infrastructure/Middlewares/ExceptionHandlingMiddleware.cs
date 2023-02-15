@@ -38,25 +38,25 @@ namespace Staff.API.Infrastructure.Middlewares
                 Message = ex.Message
             };
 
-#if RELEASE
-            errDetails.Message = "Something goes wrong, please try again later";
-#endif
+//#if RELEASE
+//            errDetails.Message = "Something goes wrong, please try again later";
+//#endif
 
             switch (ex)
             {
                 case FormatException:
                     errDetails.StatusCode = (int)HttpStatusCode.NotFound;
                     errDetails.Status = ExceptionStatus.NotFound;
-#if RELEASE
-                    errDetails.Message = "Entity with provided id not found.";
-#endif
+//#if RELEASE
+//                    errDetails.Message = "Entity with provided id not found.";
+//#endif
                     break;
                 case NotSafeException:
                     errDetails.StatusCode = (int)HttpStatusCode.Forbidden;
                     errDetails.Status = ExceptionStatus.AccessNotAllowed;
-#if RELEASE
-                    errDetails.Message = "Entity with provided id not found.";
-#endif
+//#if RELEASE
+//                    errDetails.Message = "Entity with provided id not found.";
+//#endif
                     break;
                 case NotFoundException:
                     errDetails.StatusCode = (int)HttpStatusCode.NotFound;
@@ -69,9 +69,9 @@ namespace Staff.API.Infrastructure.Middlewares
                 case InvalidTokenException:
                     errDetails.StatusCode = (int)HttpStatusCode.Unauthorized;
                     errDetails.Status = ExceptionStatus.InvalidToken;
-#if RELEASE
-                    errDetails.Message = "You are unauthorized.";
-#endif
+//#if RELEASE
+//                    errDetails.Message = "You are unauthorized.";
+//#endif
                     break;
                 case InvalidFileExtensionException:
                     errDetails.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -80,16 +80,16 @@ namespace Staff.API.Infrastructure.Middlewares
                 case InvalidFilteringException:
                     errDetails.StatusCode = (int)HttpStatusCode.BadRequest;
                     errDetails.Status = ExceptionStatus.InvalidFiltering;
-#if RELEASE
-                    errDetails.Message = "Error on filtering data.";
-#endif
+//#if RELEASE
+//                    errDetails.Message = "Error on filtering data.";
+//#endif
                     break;
                 case InvalidGroupingException:
                     errDetails.StatusCode = (int)HttpStatusCode.BadRequest;
                     errDetails.Status = ExceptionStatus.InvalidGrouping;
-#if RELEASE
-                    errDetails.Message = "Error on grouping data.";
-#endif
+//#if RELEASE
+//                    errDetails.Message = "Error on grouping data.";
+//#endif
                     break;
                 default:
                     break;

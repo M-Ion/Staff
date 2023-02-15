@@ -6,6 +6,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import React, { SetStateAction } from "react";
+import { useSelector } from "react-redux";
 import {
   Bar,
   BarChart,
@@ -20,7 +21,9 @@ import {
   YAxis,
 } from "recharts";
 import { TimeByType } from "../../hooks/useStats.hook";
+import { selectLang } from "../../services/store/slices/localization.slice";
 import { GeneralStats, SpecificStats } from "../../types/statisitcs.types";
+import langDict from "../../utils/lang.utils";
 
 type Props<T> = {
   data: GeneralStats<T>[];
@@ -41,6 +44,7 @@ function Chart<T>({
 }: Props<T>) {
   const [selected, setSelected] = selectState;
   const [by, setBy] = byState;
+  const currentLang = useSelector(selectLang);
 
   const key = "key";
 
@@ -73,10 +77,16 @@ function Chart<T>({
           label="By"
         >
           <MenuItem value="">
-            <em>Generals</em>
+            <em>
+              {currentLang === "RO" ? langDict.get("Generale") : "Generals"}
+            </em>
           </MenuItem>
-          <MenuItem value={"Year"}>Year</MenuItem>
-          <MenuItem value={"Month"}>Month</MenuItem>
+          <MenuItem value={"Year"}>
+            {currentLang === "RO" ? langDict.get("year") : "Year"}
+          </MenuItem>
+          <MenuItem value={"Month"}>
+            {currentLang === "RO" ? langDict.get("month") : "Month"}
+          </MenuItem>
         </Select>
       </FormControl>
       <ResponsiveContainer width="100%">

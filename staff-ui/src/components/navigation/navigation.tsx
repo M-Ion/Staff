@@ -14,6 +14,9 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import CategoryIcon from "@mui/icons-material/Category";
 import { navSx } from "../../assets/styles";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectLang } from "../../services/store/slices/localization.slice";
+import langDict from "../../utils/lang.utils";
 
 type Props = {
   children?: ReactNode | ReactNode[];
@@ -27,6 +30,8 @@ const navItems = [
 ];
 
 const Navigation = ({ children }: Props) => {
+  const currentLang = useSelector(selectLang);
+
   return (
     <Drawer
       variant="permanent"
@@ -47,7 +52,14 @@ const Navigation = ({ children }: Props) => {
               to={`${item.title.toLocaleLowerCase()}`}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.title} />
+              <ListItemText
+                sx={{ textTransform: "capitalize" }}
+                primary={
+                  currentLang === "EN"
+                    ? item.title
+                    : langDict.get(item.title.toLowerCase())
+                }
+              />
             </ListItem>
           ))}
         </div>
